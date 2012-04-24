@@ -1,3 +1,15 @@
 [user]
 	name = Johnny Wong
 	email = wzhao23@gmail.com
+[color]
+  ui = true
+[push]
+  default = tracking
+[alias]
+  st = status
+  ci = commit
+  br = branch
+  co = checkout
+  df = diff
+  lg = log -p
+  up = push
