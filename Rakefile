@@ -1,6 +1,6 @@
-require 'rake/packagetask'
+#require 'rake/packagetask'
 
-dotfiles = %w[
+DOTFILES = %w[
   .ctags
   .gemrc
   .gitconfig
@@ -10,11 +10,13 @@ dotfiles = %w[
   .zshrc
 ]
 
+task :default => [:ln_dotfiles, :vim_config, :install_zsh]
+
 desc "ln all dotfiles"
 task :ln_dotfiles do
-  dotfiles.each do |file|
+  DOTFILES.each do |file|
     puts "--- ln #{file} to $Home ---"
-    system 'ln -f #{file} ~/'
+    system "ln -f #{file} ~/"
   end
 end
 
@@ -43,7 +45,4 @@ task :install_zsh do
   system 'chsh -s /bin/zsh'
 end
 
-desc "deploy all"
-task :deploy do
-end
 
