@@ -8,6 +8,8 @@ DOTFILES = %w[
   .gvimrc
   .vimrc
   .zshrc
+  .jshintrc
+  .npmrc
 ]
 
 task :default => [:ln_dotfiles, :vim_config, :install_zsh]
