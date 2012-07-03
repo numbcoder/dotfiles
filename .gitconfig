@@ -11,5 +11,6 @@
   br = branch
   co = checkout
   df = diff
-  lg = log -p
   up = push
+  po = push origin
+  lg = log --color --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s  %C(bold blue)(%cn %cr)%Creset'

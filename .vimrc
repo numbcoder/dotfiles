@@ -3,8 +3,12 @@ if has("gui_macvim")
 	set guioptions-=T "egmrt
 endif
 
- set guifont=Monaco:h12.5
-"set guifont=Consolas\ 13
+ "for macvim
+ "set guifont=Monaco:h12.5
+ "for linux gvim
+ set guifont=Monaco\ 11
+ set guioptions-=T
+" set guifont=Consolas\ 13
  " set guifontwide=WenQuanYi\ Zen\ Hei:h12:cGBK
  " 设定文件浏览器目录为当前目录
  set bsdir=buffer
@@ -56,16 +60,21 @@ endif
  Bundle 'tomasr/molokai'
  Bundle 'Shougo/neocomplcache'
  Bundle 'scrooloose/nerdtree'
+ Bundle 'jistr/vim-nerdtree-tabs'
  Bundle 'vim-scripts/taglist.vim'
- Bundle 'vim-scripts/jsbeautify'
+ "Bundle 'vim-scripts/jsbeautify'
+ Bundle 'ekevin/jsbeautify'
  Bundle 'kchmck/vim-coffee-script'
  Bundle 'pangloss/vim-javascript'
  Bundle 'tpope/vim-markdown'
  Bundle 'tpope/vim-rails'
- Bundle 'itspriddle/vim-jquery'
  Bundle 'Lokaltog/vim-powerline'
  Bundle 'kien/ctrlp.vim'
- "Bundle 'wincent/Command-T'
+ Bundle 'othree/html5.vim'
+ Bundle 'scrooloose/syntastic'
+ "Bundle 'jelera/vim-javascript-syntax'
+ Bundle 'hail2u/vim-css3-syntax'
+ "Bundle 'samsonw/vim-task'
  "Bundle 'kana/vim-smartinput'
 
  " vim-scripts repos
@@ -86,18 +95,22 @@ endif
  " ------------------- Vundle config end --------------------------------------------
  
 " 把 F8 Alt+o映射到 启动NERDTree插件
- map <F8> :NERDTree<CR>
- map <M-o> :NERDTree<CR>
+ map <F8> :NERDTreeToggle<CR>
+ "map <M-o> :NERDTreeToggle<CR>
+ map <M-o> :NERDTreeTabsToggle<CR>
+ let g:nerdtree_tabs_open_on_gui_startup = 0
 " 把 CTRL-S 映射为 保存,因为这个操作做得太习惯了
  imap <C-S> <C-C>:w<CR>
  map :W :w<CR>
  map <M-s> :w<CR>
 "my configure,F3 F4 switch the tablabel
-map <F3> :tabprevious<CR>
 map ^T :tabnew .<CR>
-map <M-w> :tabprevious<CR>
-map <F4> :tabnext<CR>
-map <M-e> :tabnext<CR>
+"map <F3> :tabprevious<CR>
+map <M-j> :tabprevious<CR>
+map <M-1> :tabprevious<CR>
+"map <F4> :tabnext<CR>
+map <M-k> :tabnext<CR>
+map <M-2> :tabnext<CR>
 map <F5> :tabnew<CR>
 map <M-n> :tabnew<CR>
 "映射F6执行ruby文件
@@ -147,6 +160,7 @@ let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
 
 "ctrlp--------
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux
+set wildignore+=*/node_modules/*  " node module 
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height = 15
@@ -176,3 +190,7 @@ let Tlist_Use_Right_Window = 1
 "
 "coffee
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
+
+" syntastic
+let g:syntastic_check_on_open=1
+let g:syntastic_javascript_checker='jshint'

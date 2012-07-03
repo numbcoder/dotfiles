@@ -3,7 +3,8 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-export ZSH_THEME="cloud"
+# export ZSH_THEME="cloud"
+export ZSH_THEME="robbyrussell"
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -40,7 +41,7 @@ alias la='ls -AF'
 alias l='ls -CF'
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 
-alias gfw='print "password" && ssh -D 7070 wzhao@ssh15.fishnote.net -p 443'
+alias gfw='print "pr8cet4fu72" && ssh -D 7070 wzhao@ssh15.fishnote.net -p 443'
 
 # add rvm  
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]  ; then   
