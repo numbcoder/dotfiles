@@ -20,7 +20,7 @@ export ZSH_THEME="robbyrussell"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(svn git ruby npm node)
+plugins=(svn git ruby npm node brew)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -47,3 +47,5 @@ alias gfw='print "pr8cet4fu72" && ssh -D 7070 wzhao@ssh15.fishnote.net -p 443'
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]  ; then   
   source "$HOME/.rvm/scripts/rvm" ;  
 fi  
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

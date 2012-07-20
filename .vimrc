@@ -1,13 +1,12 @@
 if has("gui_macvim")
 	set transparency=4
 	set guioptions-=T "egmrt
+  "for macvim
+  set guifont=Monaco:h12.5
 endif
 
- "for macvim
- "set guifont=Monaco:h12.5
  "for linux gvim
- set guifont=Monaco\ 11
- set guioptions-=T
+ "set guifont=Monaco\ 11
 " set guifont=Consolas\ 13
  " set guifontwide=WenQuanYi\ Zen\ Hei:h12:cGBK
  " 设定文件浏览器目录为当前目录
@@ -38,6 +37,8 @@ endif
  set expandtab
  set cindent shiftwidth=2
  set autoindent shiftwidth=2
+ " 自动保存
+ au BufLeave,FocusLost * silent! w
  "call pathogen#infect()
  " 设置开启语法高亮
  syntax on
@@ -61,7 +62,8 @@ endif
  Bundle 'Shougo/neocomplcache'
  Bundle 'scrooloose/nerdtree'
  Bundle 'jistr/vim-nerdtree-tabs'
- Bundle 'vim-scripts/taglist.vim'
+ "Bundle 'vim-scripts/taglist.vim'
+ Bundle 'majutsushi/tagbar'
  "Bundle 'vim-scripts/jsbeautify'
  Bundle 'ekevin/jsbeautify'
  Bundle 'kchmck/vim-coffee-script'
@@ -72,8 +74,11 @@ endif
  Bundle 'kien/ctrlp.vim'
  Bundle 'othree/html5.vim'
  Bundle 'scrooloose/syntastic'
+ Bundle 'scrooloose/nerdcommenter'
+ Bundle 'Lokaltog/vim-easymotion'
  "Bundle 'jelera/vim-javascript-syntax'
  Bundle 'hail2u/vim-css3-syntax'
+ Bundle 'tpope/vim-fugitive'
  "Bundle 'samsonw/vim-task'
  "Bundle 'kana/vim-smartinput'
 
@@ -94,12 +99,16 @@ endif
  " NOTE: comments after Bundle command are not allowed..
  " ------------------- Vundle config end --------------------------------------------
  
+ " -- NERDTree ------------
+ let g:NERDTreeWinSize = 28
 " 把 F8 Alt+o映射到 启动NERDTree插件
- map <F8> :NERDTreeToggle<CR>
+ map <F8> :NERDTreeTabsToggle<CR>
  "map <M-o> :NERDTreeToggle<CR>
  map <M-o> :NERDTreeTabsToggle<CR>
  let g:nerdtree_tabs_open_on_gui_startup = 0
-" 把 CTRL-S 映射为 保存,因为这个操作做得太习惯了
+ " -- NERDTree end ------------
+
+" 把 CTRL-S 映射为 保存
  imap <C-S> <C-C>:w<CR>
  map :W :w<CR>
  map <M-s> :w<CR>
@@ -120,7 +129,8 @@ map <F7> :!node %<CR>
 "映射<F12> 关闭当前窗口
 map <F12> :q!<CR>
 map <M-b> :q!<CR>
-"----------- Use neocomplcache. 
+
+"-- neocomplcache. ----------- 
 let g:neocomplcache_enable_at_startup = 1 
 " Use smartcase. 
 let g:neocomplcache_enable_smart_case = 1 
@@ -148,7 +158,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-j>  pumvisible() ? "\<C-n>" : "\<C-j>" 
 inoremap <expr><C-k>  pumvisible() ? "\<C-p>" : "\<C-k>"
 let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
-"----neocomplcache end -------
+"-- neocomplcache end -------
 
 " command-t
 "if has("gui_macvim")
@@ -158,26 +168,25 @@ let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
   "macmenu &File.New\ Tab key=<D-S-t>
 "endif
 
-"ctrlp--------
+"-- ctrlp --------
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux
 set wildignore+=*/node_modules/*  " node module 
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height = 15
 let g:ctrlp_extensions = ['buffertag']
-"ctrlp -------- end --
+"---- ctrlp -------- end --
 
 
 :filetype plugin on
 :colorscheme molokai
-":colorscheme blackboard
 set term=xterm-256color
 set t_Co=256
 
 "自动切换工作目录
 "set autochdir
 
-"ctags
+"-- ctags ---------------
 "let g:tlist_javascript_settings = 'javascript;f:function;c:class;o:object;m:method;s:string;a:array;n:constant'
 let Tlist_JS_Settings = 'javascript;s:string;a:array;o:object;f:function'
 let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
@@ -188,9 +197,9 @@ let Tlist_Exit_OnlyWindow = 1
 "在右侧窗口中显示taglist窗口
 let Tlist_Use_Right_Window = 1          
 "
-"coffee
+"-- coffee -------------
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
 
-" syntastic
+"-- syntastic -------------
 let g:syntastic_check_on_open=1
 let g:syntastic_javascript_checker='jshint'
