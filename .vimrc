@@ -1,18 +1,13 @@
-if has("gui_macvim")
-	set transparency=4
-	set guioptions-=T "egmrt
-  "for macvim
-  set guifont=Monaco:h12.5
-endif
+set gfn=Monaco\ for\ Powerline:h12.5
 
- "for linux gvim
- "set guifont=Monaco\ 11
+"for linux gvim
+"set guifont=Monaco\ 11
 " set guifont=Consolas\ 13
  " set guifontwide=WenQuanYi\ Zen\ Hei:h12:cGBK
  " 设定文件浏览器目录为当前目录
  set bsdir=buffer
  " 设置编码
- set enc=utf-8
+ set encoding=utf-8
  " 设置文件编码
  set fenc=utf-8
  " 设置文件编码检测类型及支持格式
@@ -32,11 +27,17 @@ endif
  set wildmenu
  "开启右下角光标位置显示
  set ruler
- " tab宽度
+ "设定光标离窗口上下边界 5 行时窗口自动滚动
+ set scrolloff=5
+ "tab宽度
  set tabstop=2
  set expandtab
  set cindent shiftwidth=2
  set autoindent shiftwidth=2
+ "开启抗锯齿
+ set antialias
+ "use mouse when possible
+ set mouse=a    
  " 自动保存
  au BufLeave,FocusLost * silent! w
  "call pathogen#infect()
@@ -60,13 +61,14 @@ endif
  " original repos on github
  Bundle 'tomasr/molokai'
  Bundle 'Shougo/neocomplcache'
+ Bundle 'Shougo/neocomplcache-snippets-complete'
  Bundle 'scrooloose/nerdtree'
  Bundle 'jistr/vim-nerdtree-tabs'
- "Bundle 'vim-scripts/taglist.vim'
  Bundle 'majutsushi/tagbar'
  "Bundle 'vim-scripts/jsbeautify'
  Bundle 'ekevin/jsbeautify'
  Bundle 'kchmck/vim-coffee-script'
+ Bundle 'jelera/vim-javascript-syntax'
  Bundle 'pangloss/vim-javascript'
  Bundle 'tpope/vim-markdown'
  Bundle 'tpope/vim-rails'
@@ -76,9 +78,10 @@ endif
  Bundle 'scrooloose/syntastic'
  Bundle 'scrooloose/nerdcommenter'
  Bundle 'Lokaltog/vim-easymotion'
- "Bundle 'jelera/vim-javascript-syntax'
  Bundle 'hail2u/vim-css3-syntax'
- Bundle 'tpope/vim-fugitive'
+ Bundle 'mileszs/ack.vim'
+ Bundle 'altercation/vim-colors-solarized'
+ "Bundle 'tpope/vim-fugitive'
  "Bundle 'samsonw/vim-task'
  "Bundle 'kana/vim-smartinput'
 
@@ -116,19 +119,16 @@ endif
 map ^T :tabnew .<CR>
 "map <F3> :tabprevious<CR>
 map <M-j> :tabprevious<CR>
+map <D-j> :tabprevious<CR>
 map <M-1> :tabprevious<CR>
-"map <F4> :tabnext<CR>
 map <M-k> :tabnext<CR>
+map <D-k> :tabnext<CR>
 map <M-2> :tabnext<CR>
-map <F5> :tabnew<CR>
-map <M-n> :tabnew<CR>
+map <M-t> :tabnew<CR>
 "映射F6执行ruby文件
 map <F6> :!ruby %<CR>
 "映射F7执行nodeJS文件
 map <F7> :!node %<CR>
-"映射<F12> 关闭当前窗口
-map <F12> :q!<CR>
-map <M-b> :q!<CR>
 
 "-- neocomplcache. ----------- 
 let g:neocomplcache_enable_at_startup = 1 
@@ -154,19 +154,15 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " <CR>: close popup and save indent.
  inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
 " <TAB>: completion. 
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-j>  pumvisible() ? "\<C-n>" : "\<C-j>" 
 inoremap <expr><C-k>  pumvisible() ? "\<C-p>" : "\<C-k>"
+" for snippets
+" SuperTab like snippets behavior.
+imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <C-l>  <Plug>(neocomplcache_snippets_force_jump)
 let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
 "-- neocomplcache end -------
-
-" command-t
-"if has("gui_macvim")
- " macmenu &File.New\ Tab key=<nop>
-  "map <D-t> :CtrlP<CR>
-  "map <D-t> :CommandT<CR>
-  "macmenu &File.New\ Tab key=<D-S-t>
-"endif
 
 "-- ctrlp --------
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux
@@ -175,31 +171,44 @@ let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height = 15
 let g:ctrlp_extensions = ['buffertag']
+let g:ctrlp_open_new_file = 't'
+map <D-r> :CtrlPMRU<CR>
+map <D-e> :CtrlPBuffer<CR>
 "---- ctrlp -------- end --
 
+"----- powerline --------
+set laststatus=2
+let g:Powerline_symbols = 'fancy'
+
+"-- tagbar --------
+let g:tagbar_width = 28
+map <leader>t :TagbarToggle<CR>
 
 :filetype plugin on
-:colorscheme molokai
+":colorscheme molokai
 set term=xterm-256color
 set t_Co=256
+
+syntax enable
+
+colorscheme solarized
+set background=dark
+let g:solarized_termtrans=1
+let g:solarized_termcolors=256
+let g:solarized_contrast="high"
+let g:solarized_visibility="high"
 
 "自动切换工作目录
 "set autochdir
 
-"-- ctags ---------------
-"let g:tlist_javascript_settings = 'javascript;f:function;c:class;o:object;m:method;s:string;a:array;n:constant'
-let Tlist_JS_Settings = 'javascript;s:string;a:array;o:object;f:function'
-let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
-"不同时显示多个文件的tag，只显示当前文件v的
-let Tlist_Show_One_File = 1            
-"如果taglist窗口是最后一个窗口，则退出vim
-let Tlist_Exit_OnlyWindow = 1          
-"在右侧窗口中显示taglist窗口
-let Tlist_Use_Right_Window = 1          
-"
+"高亮所在行、列
+"set cursorline
+"set cursorcolumn
+
 "-- coffee -------------
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
 
 "-- syntastic -------------
 let g:syntastic_check_on_open=1
 let g:syntastic_javascript_checker='jshint'
+

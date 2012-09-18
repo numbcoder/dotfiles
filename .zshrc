@@ -3,8 +3,8 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-# export ZSH_THEME="cloud"
-export ZSH_THEME="robbyrussell"
+#export ZSH_THEME="robbyrussell"
+export ZSH_THEME="lovely"
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -24,17 +24,19 @@ plugins=(svn git ruby npm node brew)
 
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
+# load coreutils
+PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
-D=$'\e[37;40m'
-PINK=$'\e[35;40m'
-GREEN=$'\e[32;40m'
-ORANGE=$'\e[33;40m'
+export CLICOLOR=1
+export TERM=xterm-256color
+eval `dircolors  ~/.dir_colors`
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-hg_ps1() {
-	hg prompt "{${D} on ${PINK}{branch}}{${D} at ${ORANGE}{bookmark}}{${GREEN}{status}}" 2> /dev/null
-}
+# List direcory contents
+export LS_OPTIONS='--color'
+alias ls='ls $LS_OPTIONS'
 
+#alias ls = 'gls --color=auto'
 #alias
 alias ll='ls -alF'
 alias la='ls -AF'
@@ -43,9 +45,25 @@ alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 
 alias gfw='print "pr8cet4fu72" && ssh -D 7070 wzhao@ssh15.fishnote.net -p 443'
 
+alias mvim="open -a MacVim"
+
+#vim vundle update
+alias vundleUp='vim -c "execute \"BundleInstall!\" | q | q"'
+
 # add rvm  
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]  ; then   
   source "$HOME/.rvm/scripts/rvm" ;  
 fi  
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+
+# add nvm  
+if [[ -s "$HOME/.nvm/nvm.sh" ]]  ; then   
+  source "$HOME/.nvm/nvm.sh" ;  
+fi  
+#. ~/.nvm/nvm.sh
+
+#nginx
+alias nginx="sudo /usr/local/Cellar/nginx/1.2.3/sbin/nginx"
+
