@@ -20,9 +20,17 @@ export ZSH_THEME="lovely"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(svn git ruby npm node brew)
+plugins=(svn git ruby npm node brew zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
+
+# 加载提示符系统
+autoload -U compinit promptinit
+compinit
+promptinit
+
+homebrew=/usr/local/bin:/usr/local/sbin
+export PATH=$homebrew:$PATH
 
 # load coreutils
 PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
@@ -33,22 +41,21 @@ eval `dircolors  ~/.dir_colors`
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # List direcory contents
-export LS_OPTIONS='--color'
-alias ls='ls $LS_OPTIONS'
+alias ls='ls --color'
 
-#alias ls = 'gls --color=auto'
 #alias
 alias ll='ls -alF'
 alias la='ls -AF'
 alias l='ls -CF'
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 
-alias gfw='print "pr8cet4fu72" && ssh -D 7070 wzhao@ssh15.fishnote.net -p 443'
-
-alias mvim="open -a MacVim"
+#alias mvim="open -a MacVim"
 
 #vim vundle update
 alias vundleUp='vim -c "execute \"BundleInstall!\" | q | q"'
+
+# sublime text
+alias e='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl* . &'
 
 # add rvm  
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]  ; then   
@@ -61,9 +68,6 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # add nvm  
 if [[ -s "$HOME/.nvm/nvm.sh" ]]  ; then   
   source "$HOME/.nvm/nvm.sh" ;  
+  #source "$HOME/.nvm/bash_completion" ;  
 fi  
-#. ~/.nvm/nvm.sh
-
-#nginx
-alias nginx="sudo /usr/local/Cellar/nginx/1.2.3/sbin/nginx"
 

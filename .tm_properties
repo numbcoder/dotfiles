@@ -1,0 +1,21 @@
+# Put this file in your user folder
+# You can also override it per project by creating another .tm_properties in your project’s root
+
+TM_GIT = "/usr/bin/git"
+excludeFiles = "*.{so,pyc,o,scssc}"
+excludeInFileChooser = "{build,dist,tmp,log,node_modules}"
+excludeInBrowser = "{build,dist,tmp,log,node_modules}"
+excludeInFolderSearch = "{build,dist,tmp,log,node_modules}"
+
+fontName = "Menlo"
+fontSize = 14
+
+softTabs = true
+tabSize  = 2
+
+[ "*.{txt,md,mdown,markdown}" ]
+softWrap = true
+
+[ "*.{coffee,rb,html,js,erb}" ]
+tabSize = 2
+softTabs = true

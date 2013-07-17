@@ -1,4 +1,4 @@
-set transparency=4
+"set transparency=4
 
 "去除工具栏
 set guioptions-=T
@@ -12,3 +12,6 @@ set guioptions-=r
 "set guifont=Monaco:h12.5
 "set guifont=Menlo\ Regular:h13
 "set guifont=Monaco-Powerline:h12
+
+" Disable print shortcut for 'goto anything...'
+macmenu File.Print key=<nop>
