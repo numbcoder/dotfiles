@@ -48,7 +48,7 @@ set gfn=Monaco\ for\ Powerline:h12.5
 
  " 按<Leader><space> 取消搜索高亮
  nmap <silent> <leader><space> :nohlsearch<CR>
- 
+
  "Emacs 式快捷键
  inoremap <C-A> <Home>
  inoremap <C-E> <End>
@@ -64,13 +64,13 @@ set gfn=Monaco\ for\ Powerline:h12.5
  call vundle#rc()
 
  " let Vundle manage Vundle
- " required! 
+ " required!
  Bundle 'gmarik/vundle'
 
  " My Bundles here:
  "
  " original repos on github
- Bundle 'tomasr/molokai'
+ "Bundle 'tomasr/molokai'
  Bundle 'Valloric/YouCompleteMe'
  Bundle 'SirVer/ultisnips'
  "Bundle 'Shougo/neocomplcache'
@@ -79,27 +79,37 @@ set gfn=Monaco\ for\ Powerline:h12.5
  Bundle 'jistr/vim-nerdtree-tabs'
  Bundle 'majutsushi/tagbar'
  "Bundle 'vim-scripts/jsbeautify'
- Bundle 'ekevin/jsbeautify'
- Bundle 'kchmck/vim-coffee-script'
+ "Bundle 'ekevin/jsbeautify'
+ "Bundle 'kchmck/vim-coffee-script'
  Bundle 'jelera/vim-javascript-syntax'
  Bundle 'pangloss/vim-javascript'
- Bundle 'tpope/vim-markdown'
+ Bundle 'briancollins/vim-jst'
+ Bundle 'plasticboy/vim-markdown'
  "Bundle 'tpope/vim-rails'
- Bundle 'Lokaltog/vim-powerline'
+ "Bundle 'Lokaltog/vim-powerline'
+ Bundle 'bling/vim-airline'
  Bundle 'kien/ctrlp.vim'
+ Bundle 'tacahiroy/ctrlp-funky'
  Bundle 'othree/html5.vim'
  Bundle 'scrooloose/syntastic'
  Bundle 'scrooloose/nerdcommenter'
  Bundle 'Lokaltog/vim-easymotion'
  Bundle 'hail2u/vim-css3-syntax'
  "Bundle 'mileszs/ack.vim'
- Bundle 'rking/ag.vim'
+ "Bundle 'rking/ag.vim'
  Bundle 'altercation/vim-colors-solarized'
  Bundle 'vim-scripts/ZoomWin'
  "Bundle 'tpope/vim-surround'
  "Bundle 'kana/vim-smartinput'
  Bundle 'Raimondi/delimitMate'
- "Bundle 'marijnh/tern_for_vim'
+ Bundle 'terryma/vim-multiple-cursors'
+ Bundle 'Blackrush/vim-gocode'
+ Bundle 'marijnh/tern_for_vim'
+ Bundle 'junegunn/vim-easy-align'
+ Bundle 'terryma/vim-expand-region'
+ Bundle 'moll/vim-node'
+ Bundle 'junegunn/goyo.vim'
+ Bundle 'dyng/ctrlsf.vim'
  "Bundle 'jpalardy/vim-slime'
  "Bundle 'tpope/vim-fugitive'
  "Bundle 'samsonw/vim-task'
@@ -109,7 +119,7 @@ set gfn=Monaco\ for\ Powerline:h12.5
  " non github repos
  "Bundle 'git://git.wincent.com/command-t.git'
 
- filetype plugin indent on     " required! 
+filetype plugin indent on     " required!
  "
  " Brief help
  " :BundleList          - list configured bundles
@@ -120,8 +130,8 @@ set gfn=Monaco\ for\ Powerline:h12.5
  " see :h vundle for more details or wiki for FAQ
  " NOTE: comments after Bundle command are not allowed..
  " ------------------- Vundle config end --------------------------------------------
- 
- " -- NERDTree ------------
+
+" -- NERDTree ------------
  let g:NERDTreeWinSize = 28
 " 把 F8 Alt+o映射到 启动NERDTree插件
  map <F8> :NERDTreeTabsToggle<CR>
@@ -132,10 +142,11 @@ set gfn=Monaco\ for\ Powerline:h12.5
  " -- NERDTree end ------------
 
 " 把 CTRL-S 映射为 保存
- imap <C-S> <C-C>:w<CR>
- map :W :w<CR>
- map <M-s> :w<CR>
- "imap jj <ESC>
+imap <C-S> <C-C>:w<CR>
+imap <D-s> <esc>:w<cr>
+map :W :w<CR>
+map <M-s> :w<CR>
+"imap jj <ESC>
 "my configure,F3 F4 switch the tablabel
 map ^T :tabnew .<CR>
 "map <F3> :tabprevious<CR>
@@ -152,75 +163,61 @@ map <F6> :!ruby %<CR>
 map <F7> :!node %<CR>
 
 
-"--- neocomplcache. ----------- 
-
-let g:neocomplcache_enable_at_startup = 1 
-" Use smartcase. 
-let g:neocomplcache_enable_smart_case = 1 
-" Use camel case completion. 
-"let g:neocomplcache_enable_camel_case_completion = 1 
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Enable omni completion. 
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS 
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags 
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS 
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete 
-"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags 
-" Enable heavy omni completion. 
-if !exists('g:neocomplcache_omni_patterns') 
-	let g:neocomplcache_omni_patterns = {} 
-endif 
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::' 
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
-" <CR>: close popup and save indent.
- "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-" <TAB>: completion. 
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"inoremap <expr><C-j>  pumvisible() ? "\<C-n>" : "\<C-j>" 
-"inoremap <expr><C-k>  pumvisible() ? "\<C-p>" : "\<C-k>"
-" for snippets
-" SuperTab like snippets behavior.
-"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-"imap <C-l>  <Plug>(neocomplcache_snippets_force_jump)
-"let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
-"let g:neocomplcache_max_list = 12
-
-" --- neocomplcache end -------
-
 " ---------- YouCompleteMe ------
 let g:ycm_complete_in_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+"set the preview window on bottom
+set splitbelow
 
-" ------- ultisnips
+" ------- ultisnips ----------------------------
 let g:UltiSnipsExpandTrigger       = "<C-l>"
 let g:UltiSnipsListSnippets        = "<C-s>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 
 "------------- Ctrlp -------------
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux
-set wildignore+=*/node_modules/*  " node module 
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.log  " MacOSX/Linux
+set wildignore+=*/node_modules/*  " node module
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height = 15
-let g:ctrlp_extensions = ['buffertag']
+let g:ctrlp_extensions = ['line', 'funky']
 let g:ctrlp_open_new_file = 't'
 " Open ctrlp with cmd+p
 let g:ctrlp_map = '<D-p>'
 " Open goto file
 nmap <D-p> :CtrlP<cr>
 imap <D-p> <esc>:CtrlP<cr>
-map <D-r> :CtrlPMRU<CR>
-map <D-e> :CtrlPBuffer<CR>
+" only search in current buffer
+map <D-e> :CtrlPLine %<CR>
+nnoremap <D-r> :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap @ :execute 'CtrlPFunky ' . expand('<cword>')<Cr>"
 "---- ctrlp -------- end --
 
-"----- powerline --------
+"----- airline --------
 set laststatus=2
-let g:Powerline_symbols = 'fancy'
+"let g:airline_powerline_fonts=1
+"let g:Powerline_symbols = 'fancy'
+" disable whitespace check
+let g:airline#extensions#whitespace#enabled = 0
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" old vim-powerline symbols
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = '⭡'
+
 
 "----------- tagbar --------
 let g:tagbar_width = 28
@@ -231,7 +228,7 @@ map <D-/> <plug>NERDCommenterToggle<CR>
 imap <D-/> <Esc><plug>NERDCommenterToggle<CR>i
 
 "------ Ack --------
-map <D-F> :Ack<space>
+"map <D-F> :Ack<space>
 
 :filetype plugin on
 "colorscheme molokai
@@ -255,8 +252,24 @@ let g:solarized_hitrail=1
 "set cursorline
 "set cursorcolumn
 
-"----------- coffee -------------
+"--------- coffee -------------
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
+
+"------ golang is special ----------
+au FileType go setlocal noexpandtab softtabstop=8 tabstop=8 shiftwidth=8
+autocmd FileType go autocmd BufWritePre <buffer> :keepjumps Fmt
+
+"------ python indent ----------
+au FileType python setlocal expandtab softtabstop=4 tabstop=4 shiftwidth=4
+
+"------- vim-easy-align ---------
+vnoremap <silent> <Enter> :EasyAlign<cr>
+
+"------- tern_for_vim----------
+au FileType javascript nmap <leader>] :TernDefSplit<CR>
+let g:tern_show_argument_hints = 'yes'
+au FileType javascript map <C-i> :call tern#LookupArgumentHints()<CR>
+
 
 "------------ syntastic -------------
 let g:syntastic_check_on_open=1
@@ -266,3 +279,7 @@ let g:syntastic_javascript_jshint_conf="~/.jshintrc"
 "let g:syntastic_error_symbol = '✗'
 "let g:syntastic_warning_symbol = '⚠'
 
+"------------ ctrlsf -------------
+let g:ctrlsf_ackprg = 'ag'
+let g:ctrlsf_auto_close = 0
+map <D-F> :CtrlSF<space>

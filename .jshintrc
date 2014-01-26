@@ -11,8 +11,7 @@
 
   "asi"       : true,  // 检查分号
   "bitwise"   : true,  // 禁用位运算符
-  "boss"      : false,
-  "curly"     : true,  // if while 后必须有{} 
+  "curly"     : false,  // if while 后必须有{} 
   "debug"     : false, // 不允许出现debug
   "eqeqeq"    : false, // 不强制使用 ===
   "eqnull"    : false, // 不允许出现 == null 比较
@@ -20,23 +19,27 @@
   "forin"     : false, // 允许 for in 循环中不出现 hasOwnProperty
   "immed"     : true,  // 匿名函数必须是 (function(){ }());
   "laxbreak"  : true,  // 不检查换行
-  "laxcomma"  : false, // 可以逗号换行
+  "laxcomma"  : true, // 可以逗号换行
   "newcap"    : true,  // 要求没一个构成函数名首字母需大写。`new F();`
   "noarg"     : true,  // 禁止使用 `arguments.caller` and `arguments.callee`
   "noempty"   : false, // 可以出现空代码块
   "nomen"     : false, // 可以出现下划线命名的变量
-  "novar"     : false, // 貌似这个选项被取消了。
-  "nonew"     : true,  // 不允许出现 `new F()`必须是 `var f = new F()` 
+  "nonew"     : false,  // 不允许出现 `new F()`必须是 `var f = new F()` 
   "plusplus"  : false, // 运行使用 ++ 和 --
   "regexp"    : true,  // 不允许使用 . 和 [^...] 等不安全的正则
   "undef"     : true,  // 非全局变量必须使用 var 来声明
+  "unused"    : true,
   "sub"       : true,  // 允许使用各种形式的下标来访问对象
   "strict"    : false, // 不强制要求使用 `use strict`
   "white"     : false, // 不严格检查空格缩进规则
-  //"indent"   : 2,      // 缩进(设置了这个，white会被强制检查)
+  "indent"    : 2,      // 缩进(设置了这个，white会被强制检查)
   "trailing"  : false, // 允许换行式的字符串写法
+  "funcscope" : true,
+  "loopfunc"  : true,
+  "multistr"  : true,
+  "smarttabs" : true,
+  "expr"      : true,
 
-  "es5"       : true,  // 开启 es5 模式兼容
   "node"      : true,  // nodejs 环境
   "browser"   : true,  // 浏览器环境
   "jquery"    : true,  // jQuery

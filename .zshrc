@@ -20,14 +20,14 @@ export ZSH_THEME="lovely"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(svn git ruby npm node brew zsh-syntax-highlighting)
+plugins=(git brew zsh-syntax-highlighting git-flow osx)
 
 source $ZSH/oh-my-zsh.sh
 
 # 加载提示符系统
-autoload -U compinit promptinit
-compinit
-promptinit
+#autoload -U compinit promptinit
+#compinit
+#promptinit
 
 homebrew=/usr/local/bin:/usr/local/sbin
 export PATH=$homebrew:$PATH
@@ -44,15 +44,19 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 alias ls='ls --color'
 
 #alias
-alias ll='ls -alF'
+alias ll='ls -alhF'
 alias la='ls -AF'
 alias l='ls -CF'
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 
 #alias mvim="open -a MacVim"
+alias vi='vim'
+alias v='mvim'
+alias nodeg='node --harmony-generators'
 
-#vim vundle update
-alias vundleUp='vim -c "execute \"BundleInstall!\" | q | q"'
+#alias rm
+alias rm='rm -riv'
+alias mv='mv -i'
 
 # sublime text
 alias e='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl* . &'
@@ -71,3 +75,6 @@ if [[ -s "$HOME/.nvm/nvm.sh" ]]  ; then
   #source "$HOME/.nvm/bash_completion" ;  
 fi  
 
+#add go
+export GOPATH=$HOME/golang
+export PATH=$PATH:$GOPATH/bin

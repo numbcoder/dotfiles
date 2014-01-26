@@ -5,7 +5,7 @@ set guioptions-=T
 "去除菜单栏
 set guioptions-=m
 "去除左边滚动条
-set guioptions-=l
+set guioptions-=L
 "去除右边滚动条
 set guioptions-=r
 
