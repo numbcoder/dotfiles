@@ -95,8 +95,6 @@ set gfn=Monaco\ for\ Powerline:h12.5
  Bundle 'scrooloose/nerdcommenter'
  Bundle 'Lokaltog/vim-easymotion'
  Bundle 'hail2u/vim-css3-syntax'
- "Bundle 'mileszs/ack.vim'
- "Bundle 'rking/ag.vim'
  Bundle 'altercation/vim-colors-solarized'
  Bundle 'vim-scripts/ZoomWin'
  "Bundle 'tpope/vim-surround'
@@ -110,6 +108,7 @@ set gfn=Monaco\ for\ Powerline:h12.5
  Bundle 'moll/vim-node'
  Bundle 'junegunn/goyo.vim'
  Bundle 'dyng/ctrlsf.vim'
+ "Bundle 'benmills/vimux'
  "Bundle 'jpalardy/vim-slime'
  "Bundle 'tpope/vim-fugitive'
  "Bundle 'samsonw/vim-task'
@@ -198,6 +197,7 @@ map <D-e> :CtrlPLine %<CR>
 nnoremap <D-r> :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 nnoremap @ :execute 'CtrlPFunky ' . expand('<cword>')<Cr>"
+let g:ctrlp_funky_syntax_highlight = 1
 "---- ctrlp -------- end --
 
 "----- airline --------

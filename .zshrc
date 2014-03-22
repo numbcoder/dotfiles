@@ -68,7 +68,6 @@ fi
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
-
 # add nvm  
 if [[ -s "$HOME/.nvm/nvm.sh" ]]  ; then   
   source "$HOME/.nvm/nvm.sh" ;  
@@ -78,3 +77,4 @@ fi
 #add go
 export GOPATH=$HOME/golang
 export PATH=$PATH:$GOPATH/bin
+
