@@ -20,7 +20,7 @@ export ZSH_THEME="lovely"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew zsh-syntax-highlighting git-flow osx)
+plugins=(git brew zsh-syntax-highlighting git-flow osx bundler)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -61,20 +61,19 @@ alias mv='mv -i'
 # sublime text
 alias e='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl* . &'
 
-# add rvm  
-if [[ -s "$HOME/.rvm/scripts/rvm" ]]  ; then   
-  source "$HOME/.rvm/scripts/rvm" ;  
-fi  
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+#add rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # add nvm  
 if [[ -s "$HOME/.nvm/nvm.sh" ]]  ; then   
   source "$HOME/.nvm/nvm.sh" ;  
   #source "$HOME/.nvm/bash_completion" ;  
 fi  
+alias cnpm="npm --registry=http://r.cnpmjs.org"
 
 #add go
 export GOPATH=$HOME/golang
 export PATH=$PATH:$GOPATH/bin
 
+# bundler rails
+alias rails='bundle exec rails'
