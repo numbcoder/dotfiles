@@ -1,3 +1,6 @@
+#load gruvbox color
+~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh
+
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -20,7 +23,7 @@ export ZSH_THEME="lovely"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew zsh-syntax-highlighting git-flow osx bundler)
+plugins=(git brew zsh-syntax-highlighting osx bundler)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -77,3 +80,8 @@ export PATH=$PATH:$GOPATH/bin
 
 # bundler rails
 alias rails='bundle exec rails'
+
+#ctags
+alias gtags='ctags -R --fields=+l .'
+alias erltags='ctags -R --fields=+l --languages=erlang .'
+alias rbtags='ctags -R --fields=+l --languages=ruby --exclude=.bundle .'

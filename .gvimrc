@@ -1,4 +1,4 @@
-"set transparency=4
+set transparency=4
 
 "去除工具栏
 set guioptions-=T
@@ -15,3 +15,5 @@ set guioptions-=r
 
 " Disable print shortcut for 'goto anything...'
 macmenu File.Print key=<nop>
+"colorscheme gruvbox
+"let g:gruvbox_contrast_dark='hard'
