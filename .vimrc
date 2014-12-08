@@ -16,23 +16,24 @@ NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
 "NeoBundle 'tomasr/molokai'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'JazzCore/ctrlp-cmatcher',
+"NeoBundle 'fisadev/vim-ctrlp-cmdpalette'
 "NeoBundle 'tacahiroy/ctrlp-funky'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'scrooloose/nerdcommenter'
-"NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Raimondi/delimitMate'
 "NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'altercation/vim-colors-solarized'
+"NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'morhetz/gruvbox'
+"NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'ntpeters/vim-better-whitespace'
+NeoBundle 'Lokaltog/vim-easymotion'
 
-NeoBundleLazy 'scrooloose/nerdtree', {
-      \'depends': 'jistr/vim-nerdtree-tabs',
-      \'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']}
-      \}
+NeoBundleLazy 'scrooloose/nerdtree', { 'autoload': {'commands':['NERDTreeToggle','NERDTreeFind']} }
+"NeoBundleLazy 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
 NeoBundleLazy 't9md/vim-choosewin', {'autoload':{'commands': 'ChooseWin'}}
 NeoBundleLazy 'szw/vim-maximizer', {'autoload':{'commands': 'MaximizerToggle'}}
 NeoBundleLazy 'majutsushi/tagbar', {'autoload':{'commands': 'TagbarToggle'}}
@@ -54,11 +55,12 @@ NeoBundleLazy 'fatih/vim-go', {'autoload':{'filetypes':['go']}}
 NeoBundleLazy 'jimenezrick/vimerl', {'autoload':{'filetypes':['erlang']}}
 NeoBundleLazy 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
 NeoBundleLazy 'hcs42/vim-erlang-tags', {'autoload':{'filetypes':['erlang']}}
+NeoBundleLazy 'elixir-lang/vim-elixir', {'autoload':{'filetypes':['elixir']}}
 "NeoBundleLazy 'oblitum/rainbow', {'autoload':{'filetypes':['ruby', 'go', 'css', 'html', 'javascript']}}
 "NeoBundle 'tpope/vim-surround'
 "NeoBundle 'kana/vim-smartinput'
 "NeoBundle 'benmills/vimux'
-"NeoBundle 'tpope/vim-fugitive' 
+"NeoBundle 'tpope/vim-fugitive'
 "NeoBundle 'samsonw/vim-task'
 
 
@@ -125,7 +127,7 @@ nmap <silent> <leader><space> :nohlsearch<CR>
 
 "open define in horizontal split
 "map <D-]> :sp <CR>:exec("tag ".expand("<cword>"))<CR>
-     
+
 " map ; to :
 nnoremap ; :
 
@@ -150,12 +152,13 @@ let g:vim_markdown_folding_disabled=1
 let g:NERDTreeWinSize = 28
 let NERDTreeIgnore=['\.beam$']
 " 把 F8 Alt+o映射到 启动NERDTree插件
-nmap <F8> :NERDTreeTabsToggle<CR>
+"nmap <F8> :NERDTreeTabsToggle<CR>
 "map <M-o> :NERDTreeToggle<CR>
-nmap <M-o> :NERDTreeTabsToggle<CR>
-nmap <D-O> :NERDTreeTabsToggle<CR>
+"nmap <M-o> :NERDTreeTabsToggle<CR>
+"nmap <D-O> :NERDTreeTabsToggle<CR>
+nmap <D-O> :NERDTreeToggle<CR>
 nmap <leader>o :NERDTreeFind<CR>
-let g:nerdtree_tabs_open_on_gui_startup = 0
+"let g:nerdtree_tabs_open_on_gui_startup = 0
 " -- NERDTree end ------------
 
 " 把 CTRL-S 映射为 保存
@@ -239,12 +242,27 @@ nnoremap <leader>t :TagbarToggle<CR>
 
 "--------- nerdcommenter --------
 map <D-/> <plug>NERDCommenterToggle<CR>
-imap <D-/> <Esc><plug>NERDCommenterToggle<CR>i
+imap <D-/> <Esc><plug>NERDCommenterToggle<CR>
+
+"------ easy-motion --------
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+"map <Leader> <Plug>(easymotion-prefix)
+nmap s <Plug>(easymotion-s)
+nmap <Leader>w <Plug>(easymotion-w)
+nmap <Leader>s <Plug>(easymotion-sn)
+" Turn on case sensitive feature
+let g:EasyMotion_smartcase = 1
 
 "------ Ack --------
 "map <D-F> :Ack<space>
 
-:filetype plugin on
+"------ gitgutter --------
+let g:gitgutter_map_keys = 0
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+
+
+filetype plugin on
 "colorscheme molokai
 set term=xterm-256color
 set t_Co=256
@@ -315,7 +333,7 @@ let g:ctrlsf_auto_close = 0
 map <D-F> :CtrlSF<space>
 
 "------------ rainbow -------------
-"let g:rainbow_active = 1
+let g:rainbow_active = 1
 
 "------------ choosewim -------------
 "nmap m <Plug>(choosewin)

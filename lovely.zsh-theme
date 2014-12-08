@@ -18,8 +18,10 @@
 #  %~ The current working directory. If you are in you are in your $HOME, this will be replaced by ~.
 #  %d The current working directory.
 
+# List color code
+# exe: spectrum_ls
 
-PROMPT='%{$fg[yellow]%} %{$fg[green]%}%c %{$fg[red]%}❤ %{$fg[blue]%}$(git_prompt_info)%{$fg[blue]%} % %{$reset_color%}'
+PROMPT='%{$FG[006]%} %{$FG[002]%}%c %{$FG[009]%}❤ %{$fg[blue]%}$(git_prompt_info)%{$fg[blue]%} % %{$reset_color%}'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="git:(%{$fg[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
