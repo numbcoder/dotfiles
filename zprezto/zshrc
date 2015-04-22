@@ -65,6 +65,8 @@ alias rails='bundle exec rails'
 alias gtags='ctags -R --fields=+l .'
 alias erltags='ctags -R --fields=+l --languages=erlang .'
 alias rbtags='ctags -R --fields=+l --languages=ruby --exclude=.bundle .'
+alias rubytags='ripper-tags -R --exclude=.bundle'
 
-alias zshup='cd ~/.zprezto && git pull && git submodule update --init --recursive && source ~/.zshrc'
+alias zshup='cd ~/.zprezto && git pull && git submodule update --init --recursive && source ~/.zshrc && cd -'
 alias zshreload='source ~/.zshrc'
+
