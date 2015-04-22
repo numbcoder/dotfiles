@@ -53,9 +53,10 @@ NeoBundleLazy 'othree/html5.vim', {'autoload':{'filetypes':['html']}}
 NeoBundleLazy 'hail2u/vim-css3-syntax', {'autoload':{'filetypes':['css']}}
 NeoBundleLazy 'fatih/vim-go', {'autoload':{'filetypes':['go']}}
 NeoBundleLazy 'jimenezrick/vimerl', {'autoload':{'filetypes':['erlang']}}
-NeoBundleLazy 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
-NeoBundleLazy 'hcs42/vim-erlang-tags', {'autoload':{'filetypes':['erlang']}}
+"NeoBundleLazy 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
+NeoBundleLazy 'vim-erlang/vim-erlang-tags', {'autoload':{'filetypes':['erlang']}}
 NeoBundleLazy 'elixir-lang/vim-elixir', {'autoload':{'filetypes':['elixir']}}
+"NeoBundleLazy 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
 "NeoBundleLazy 'oblitum/rainbow', {'autoload':{'filetypes':['ruby', 'go', 'css', 'html', 'javascript']}}
 "NeoBundle 'tpope/vim-surround'
 "NeoBundle 'kana/vim-smartinput'
@@ -293,22 +294,28 @@ let g:solarized_hitrail=1
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
 
 "------ golang is special ----------
-au FileType go setlocal noexpandtab softtabstop=8 tabstop=8 shiftwidth=8
-autocmd FileType go autocmd BufWritePre <buffer> :keepjumps Fmt
+au FileType go setlocal noexpandtab softtabstop=4 tabstop=4 shiftwidth=4
 
 "------------ vim-go ---------------
 let g:go_bin_path = expand("~/golang/bin/")
-au Filetype go nnoremap <buffer> <leader>i :exe 'GoImport ' . expand('<cword>')<CR>
-au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
-au Filetype go nnoremap <leader>s :sp <CR>:exe "GoDef"<CR>
-au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
+"au FileType go nmap <D-i> <Plug>(go-def-split)
+"au FileType go nmap <D-I> <Plug>(go-def-vertical)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+" keyword highlight
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 "------ python indent ----------
 au FileType python setlocal expandtab softtabstop=4 tabstop=4 shiftwidth=4
 
 "------ erlang indent ----------
 au FileType erlang setlocal expandtab softtabstop=4 tabstop=4 shiftwidth=4
-au Filetype erlang nmap <buffer> <D-i> :sp <CR>:call VimErlangTagsSelect()<CR><C-]>
+au FileType erlang nnoremap <buffer> <D-i> :call VimErlangTagsSelect(1)<cr><c-]>
 
 "------- vim-easy-align ---------
 vnoremap <silent> <Enter> :EasyAlign<cr>
@@ -348,6 +355,7 @@ let g:choosewin_blink_on_land = 0
 
 "------------ autocomplete --------------------------
 let g:autocomplete_engine = 'ycm'
+"let g:autocomplete_engine = 'neocomplete'
 
 if g:autocomplete_engine == 'ycm'
   " ---------- YouCompleteMe ------
@@ -361,6 +369,9 @@ if g:autocomplete_engine == 'ycm'
   let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
   "set the preview window on bottom
   set splitbelow
+  " for erlang omnicomplete
+  let g:erlang_completion_cache = 0
+  au FileType erlang let g:ycm_cache_omnifunc = 0
 
   " ------- ultisnips ----------------------------
   let g:UltiSnipsExpandTrigger       = "<C-l>"
@@ -387,10 +398,11 @@ if g:autocomplete_engine == 'neocomplete'
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-  if !exists('g:neocomplcache_force_omni_patterns')
-    let g:neocomplcache_force_omni_patterns = {}
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
   endif
-  let g:neocomplcache_force_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+  "let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+  let g:neocomplete#force_omni_input_patterns.erlang = '\<[[:digit:][:alnum:]_-]\+:[[:digit:][:alnum:]_-]*'
 
   " Plugin key-mappings.
   inoremap <expr><C-g>     neocomplete#undo_completion()
@@ -432,4 +444,19 @@ if g:autocomplete_engine == 'neocomplete'
   if has('conceal')
     set conceallevel=2 concealcursor=i
   endif
+
+  "------------ Multiple cursors confict ---------
+  " Called once right before you start selecting multiple cursors
+  function! Multiple_cursors_before()
+    if exists(':NeoCompleteLock')==2
+      exe 'NeoCompleteLock'
+    endif
+  endfunction
+
+  " Called once only when the multiple selection is canceled (default <Esc>)
+  function! Multiple_cursors_after()
+    if exists(':NeoCompleteUnlock')==2
+      exe 'NeoCompleteUnlock'
+    endif
+  endfunction
 endif
