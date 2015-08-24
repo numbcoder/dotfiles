@@ -11,7 +11,11 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " My Bundles here:
 "NeoBundle 'Shougo/neocomplete.vim'
 "NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Valloric/YouCompleteMe', {
+      \ 'build' : {
+      \     'mac' : './install.sh',
+      \    },
+      \ }
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
 "NeoBundle 'tomasr/molokai'
@@ -35,12 +39,15 @@ NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundleLazy 'scrooloose/nerdtree', { 'autoload': {'commands':['NERDTreeToggle','NERDTreeFind']} }
 "NeoBundleLazy 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
 NeoBundleLazy 't9md/vim-choosewin', {'autoload':{'commands': 'ChooseWin'}}
+NeoBundleLazy 'junegunn/limelight.vim', {'autoload': {'commands': ['Limelight','Limelight!!']}}
 NeoBundleLazy 'szw/vim-maximizer', {'autoload':{'commands': 'MaximizerToggle'}}
 NeoBundleLazy 'majutsushi/tagbar', {'autoload':{'commands': 'TagbarToggle'}}
 NeoBundleLazy 'dyng/ctrlsf.vim', {'autoload':{'commands': 'CtrlSF'}}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':['coffee']}}
-NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
-NeoBundleLazy 'pangloss/vim-javascript', {'autoload':{'filetypes':['javascript']}}
+"NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+"NeoBundleLazy 'pangloss/vim-javascript', {'autoload':{'filetypes':['javascript']}}
+NeoBundleLazy 'othree/yajs.vim', {'autoload':{'filetypes':['javascript']}}
+NeoBundleLazy 'mxw/vim-jsx', {'autoload':{'filetypes':['javascript', 'javascript.jsx', 'jsx']}}
 NeoBundleLazy 'marijnh/tern_for_vim', {'autoload':{'filetypes':['javascript']}}
 NeoBundleLazy 'moll/vim-node', {'autoload':{'filetypes':['javascript']}}
 NeoBundleLazy 'briancollins/vim-jst', {'autoload':{'filetypes':['ejs']}}
@@ -56,8 +63,10 @@ NeoBundleLazy 'jimenezrick/vimerl', {'autoload':{'filetypes':['erlang']}}
 "NeoBundleLazy 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
 NeoBundleLazy 'vim-erlang/vim-erlang-tags', {'autoload':{'filetypes':['erlang']}}
 NeoBundleLazy 'elixir-lang/vim-elixir', {'autoload':{'filetypes':['elixir']}}
-"NeoBundleLazy 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
-"NeoBundleLazy 'oblitum/rainbow', {'autoload':{'filetypes':['ruby', 'go', 'css', 'html', 'javascript']}}
+NeoBundleLazy 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
+NeoBundleLazy 'dantezhu/lua_indent', {'autoload':{'filetypes':['lua']}}
+NeoBundleLazy 'luochen1990/rainbow', {'autoload':{'filetypes':['scheme', 'ruby', 'css', 'html', 'javascript']}}
+NeoBundleLazy 'kovisoft/slimv', {'autoload':{'filetypes':['scheme', 'lisp']}}
 "NeoBundle 'tpope/vim-surround'
 "NeoBundle 'kana/vim-smartinput'
 "NeoBundle 'benmills/vimux'
@@ -120,9 +129,8 @@ set pumheight=12
 "au BufLeave,FocusLost * silent! w
 " 设置开启语法高亮
 syntax on
-set switchbuf=usetab,newtab     " open new buffers always in new tabs
-" map leader to ,
-let mapleader=","
+" map leader to space
+let mapleader = "\<Space>"
 " 按<Leader><space> 取消搜索高亮
 nmap <silent> <leader><space> :nohlsearch<CR>
 
@@ -184,18 +192,23 @@ nnoremap <F6> :!ruby %<CR>
 nnoremap <F7> :!node %<CR>
 
 "------------- Ctrlp -------------
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.log,*.beam  " MacOSX/Linux
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.log,*.beam  " MacOSX/Linux
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif,*.beam  " MacOSX/Linux
 set wildignore+=*/node_modules/*  " node module
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(so|beam|log)$',
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$'
     \ }
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height = 15
 let g:ctrlp_extensions = ['line', 'buffertag']
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_clear_cache_on_exit=1
+" disable caching when file count < 50
+let g:ctrlp_use_caching = 50
 if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+  " Use ag in CtrlP for listing files.
   let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
 endif
 " Open ctrlp with cmd+p
@@ -203,8 +216,9 @@ endif
 " Open goto file
 "nmap <D-p> :CtrlP<cr>
 "imap <D-p> <esc>:CtrlP<cr>
+nmap <D-p> :CtrlP<CR>
 " only search in current buffer
-nmap <D-p> :CtrlPBuffer<CR>
+nmap <D-b> :CtrlPBuffer<CR>
 nmap <D-e> :CtrlPLine %<CR>
 nnoremap <D-r> :CtrlPBufTag<Cr>
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
@@ -215,23 +229,31 @@ autocmd VimEnter * ClearCtrlPCache
 nmap <F5> :ClearCtrlPCache<CR>
 "---- ctrlp -------- end --
 
+"------------- Limelight ----------
+" Default: 0.5
+"let g:limelight_default_coefficient = 0.7
+" Number of preceding/following paragraphs to include (default: 0)
+"let g:limelight_paragraph_span = 1
+nmap <Leader>l :Limelight!!<CR>
+
 "----- airline --------
 set laststatus=2
-"let g:airline_powerline_fonts=1
-"let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts = 1
 " disable whitespace check
 let g:airline#extensions#whitespace#enabled = 0
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
+
+"------------ if powerline font not soupport ----------
+"if !exists('g:airline_symbols')
+"  let g:airline_symbols = {}
+"endif
 " old vim-powerline symbols
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
+"let g:airline_left_sep = '⮀'
+"let g:airline_left_alt_sep = '⮁'
+"let g:airline_right_sep = '⮂'
+"let g:airline_right_alt_sep = '⮃'
+"let g:airline_symbols.branch = '⭠'
+"let g:airline_symbols.readonly = '⭤'
+"let g:airline_symbols.linenr = '⭡'
 
 "----------- vim-maximizer --------
 let g:maximizer_default_mapping_key = '<c-w>o'
@@ -298,11 +320,12 @@ au FileType go setlocal noexpandtab softtabstop=4 tabstop=4 shiftwidth=4
 
 "------------ vim-go ---------------
 let g:go_bin_path = expand("~/golang/bin/")
-"au FileType go nmap <D-i> <Plug>(go-def-split)
-"au FileType go nmap <D-I> <Plug>(go-def-vertical)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <D-i> <Plug>(go-def-split)
+au FileType go nmap <D-I> <Plug>(go-def-vertical)
+"au FileType go nmap <Leader>ds <Plug>(go-def-split)
+"au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
 " keyword highlight
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -329,8 +352,9 @@ au FileType javascript map <D-I> :TernDefSplit<CR>
 "------------ syntastic -------------
 let g:syntastic_check_on_open=1
 let g:syntastic_enable_signs=1
-let g:syntastic_javascript_checkers=['jshint']
-let g:syntastic_javascript_jshint_args = '--config ~/.jshintrc'
+let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_javascript_checkers=['jshint']
+"let g:syntastic_javascript_jshint_args = '--config ~/.jshintrc'
 "let g:syntastic_error_symbol = '✗'
 "let g:syntastic_warning_symbol = '⚠'
 
@@ -460,3 +484,4 @@ if g:autocomplete_engine == 'neocomplete'
     endif
   endfunction
 endif
+
