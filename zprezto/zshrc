@@ -13,7 +13,7 @@ fi
 # Customize to your needs...
 
 # load gruvbox color
-~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh
+source ~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh
 
 
 # load coreutils
@@ -74,3 +74,5 @@ alias scm="rlwrap -r -c -f ~/.mit_scheme_bindings.txt mit-scheme"
 export PATH="$HOME/Git/exercism:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias pe="proxychains4 open /Applications/Emacs.app"
