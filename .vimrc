@@ -13,13 +13,14 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Valloric/YouCompleteMe', {
       \ 'build' : {
-      \     'mac' : './install.sh',
+      \     'mac' : './install.py --tern-completer',
       \    },
       \ }
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
 "NeoBundle 'tomasr/molokai'
-NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'JazzCore/ctrlp-cmatcher',
 "NeoBundle 'fisadev/vim-ctrlp-cmdpalette'
@@ -32,9 +33,10 @@ NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'terryma/vim-multiple-cursors'
 "NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'morhetz/gruvbox'
-"NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'ntpeters/vim-better-whitespace'
 NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'Yggdroot/indentLine'
 
 NeoBundleLazy 'scrooloose/nerdtree', { 'autoload': {'commands':['NERDTreeToggle','NERDTreeFind']} }
 "NeoBundleLazy 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
@@ -48,8 +50,9 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':['coffee']}}
 "NeoBundleLazy 'pangloss/vim-javascript', {'autoload':{'filetypes':['javascript']}}
 NeoBundleLazy 'othree/yajs.vim', {'autoload':{'filetypes':['javascript']}}
 NeoBundleLazy 'mxw/vim-jsx', {'autoload':{'filetypes':['javascript', 'javascript.jsx', 'jsx']}}
-NeoBundleLazy 'marijnh/tern_for_vim', {'autoload':{'filetypes':['javascript']}}
+"NeoBundleLazy 'marijnh/tern_for_vim', {'autoload':{'filetypes':['javascript']}}
 NeoBundleLazy 'moll/vim-node', {'autoload':{'filetypes':['javascript']}}
+NeoBundleLazy 'digitaltoad/vim-jade', {'autoload':{'filetypes':['jade']}}
 NeoBundleLazy 'briancollins/vim-jst', {'autoload':{'filetypes':['ejs']}}
 NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
 NeoBundleLazy 'cakebaker/scss-syntax.vim', {'autoload':{'filetypes':['scss','sass']}}
@@ -63,10 +66,11 @@ NeoBundleLazy 'jimenezrick/vimerl', {'autoload':{'filetypes':['erlang']}}
 "NeoBundleLazy 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
 NeoBundleLazy 'vim-erlang/vim-erlang-tags', {'autoload':{'filetypes':['erlang']}}
 NeoBundleLazy 'elixir-lang/vim-elixir', {'autoload':{'filetypes':['elixir']}}
-NeoBundleLazy 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
-NeoBundleLazy 'dantezhu/lua_indent', {'autoload':{'filetypes':['lua']}}
+NeoBundleLazy 'ekalinin/Dockerfile.vim', {'autoload':{'filetypes':['Dockerfile']}}
+"NeoBundleLazy 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
+"NeoBundleLazy 'dantezhu/lua_indent', {'autoload':{'filetypes':['lua']}}
 NeoBundleLazy 'luochen1990/rainbow', {'autoload':{'filetypes':['scheme', 'ruby', 'css', 'html', 'javascript']}}
-NeoBundleLazy 'kovisoft/slimv', {'autoload':{'filetypes':['scheme', 'lisp']}}
+"NeoBundleLazy 'kovisoft/slimv', {'autoload':{'filetypes':['scheme', 'lisp']}}
 "NeoBundle 'tpope/vim-surround'
 "NeoBundle 'kana/vim-smartinput'
 "NeoBundle 'benmills/vimux'
@@ -97,6 +101,7 @@ set fenc=utf-8
 set fencs=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 "显示行号
 set number
+" set relativenumber
 " 查找结果高亮度显示
 set hlsearch
 " show search matches as you type
@@ -121,8 +126,8 @@ set cindent shiftwidth=2
 set autoindent shiftwidth=2
 "开启抗锯齿
 set antialias
-"use mouse when possible
-set mouse=a
+"disable mouse in terminal
+set mouse-=a
 " set popup list count
 set pumheight=12
 " 自动保存
@@ -132,7 +137,7 @@ syntax on
 " map leader to space
 let mapleader = "\<Space>"
 " 按<Leader><space> 取消搜索高亮
-nmap <silent> <leader><space> :nohlsearch<CR>
+nmap <silent> <leader>/ :nohlsearch<CR>
 
 "open define in horizontal split
 "map <D-]> :sp <CR>:exec("tag ".expand("<cword>"))<CR>
@@ -141,17 +146,34 @@ nmap <silent> <leader><space> :nohlsearch<CR>
 nnoremap ; :
 
 " Easy window navigation
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
-nmap <D-i> <C-w><C-]>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <D-i> <C-w><C-]>
+
+" moving aroung in command mode
+cnoremap <C-A> <Home>
+cnoremap <C-F> <Right>
+cnoremap <C-B> <Left>
 
 "Emacs 式快捷键
 inoremap <C-A> <Home>
 inoremap <C-E> <End>
 inoremap <C-F> <Right>
 inoremap <C-B> <Left>
+
+" Reselect visual block after indent/outdent
+vnoremap < <gv
+vnoremap > >gv
+
+"Make Y behave like other capitals
+nnoremap Y y$
+
+" 将光标移至行首
+noremap H ^
+" 将光标移至行尾
+noremap L $
 
 " markdown
 let g:vim_markdown_folding_disabled=1
@@ -217,8 +239,10 @@ endif
 "nmap <D-p> :CtrlP<cr>
 "imap <D-p> <esc>:CtrlP<cr>
 nmap <D-p> :CtrlP<CR>
+nmap <Leader>p :CtrlP<CR>
 " only search in current buffer
 nmap <D-b> :CtrlPBuffer<CR>
+nmap <Leader>b :CtrlPBuffer<CR>
 nmap <D-e> :CtrlPLine %<CR>
 nnoremap <D-r> :CtrlPBufTag<Cr>
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
@@ -270,11 +294,21 @@ imap <D-/> <Esc><plug>NERDCommenterToggle<CR>
 "------ easy-motion --------
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 "map <Leader> <Plug>(easymotion-prefix)
-nmap s <Plug>(easymotion-s)
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+" nmap s <Plug>(easymotion-s)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-s2)
 nmap <Leader>w <Plug>(easymotion-w)
 nmap <Leader>s <Plug>(easymotion-sn)
 " Turn on case sensitive feature
 let g:EasyMotion_smartcase = 1
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader><leader> <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 
 "------ Ack --------
 "map <D-F> :Ack<space>
@@ -292,10 +326,10 @@ set t_Co=256
 
 syntax enable
 
-colorscheme gruvbox
 if !has("gui_running")
   let g:gruvbox_italic=0
 endif
+colorscheme gruvbox
 set background=dark
 
 "colorscheme solarized
@@ -344,19 +378,23 @@ au FileType erlang nnoremap <buffer> <D-i> :call VimErlangTagsSelect(1)<cr><c-]>
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
 "------- tern_for_vim----------
-let g:tern_show_argument_hints = 'yes'
-au FileType javascript map <D-i> :TernType<CR>
-au FileType javascript map <D-I> :TernDefSplit<CR>
+"let g:tern_show_argument_hints = 'yes'
+"au FileType javascript map <D-i> :TernType<CR>
+"au FileType javascript map <D-I> :TernDefSplit<CR>
 
 
 "------------ syntastic -------------
-let g:syntastic_check_on_open=1
-let g:syntastic_enable_signs=1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs = 1
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_ruby_checkers = ['mri']
 "let g:syntastic_javascript_checkers=['jshint']
 "let g:syntastic_javascript_jshint_args = '--config ~/.jshintrc'
-"let g:syntastic_error_symbol = '✗'
-"let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '∆'
+let g:syntastic_style_error_symbol = '✠'
+let g:syntastic_style_warning_symbol = '≈'
 
 "------------ ctrlsf -------------
 let g:ctrlsf_ackprg = 'ag'
