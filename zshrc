@@ -1,16 +1,28 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
+# zplug https://github.com/b4b4r07/zplug
+source ~/.zplug/zplug
+# Plugins
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zsh-completions"
+# Support oh-my-zsh plugins and the like
+zplug "plugins/git", from:oh-my-zsh, if:"which git"
+zplug "plugins/brew", from:oh-my-zsh
+zplug "plugins/osx", from:oh-my-zsh
+zplug "themes/muse", from:oh-my-zsh
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+# Install plugins if there are plugins that have not been installed
+#if ! zplug check --verbose; then
+    #printf "Install? [y/N]: "
+    #if read -q; then
+        #echo; zplug install
+    #fi
+#fi
+# Then, source plugins and add commands to $PATH
+zplug load --verbose
 
 # Customize to your needs...
+# autoload
+autoload -Uz colors && colors
+autoload -Uz compinit && compinit -u
 
 # load gruvbox color
 source ~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh
