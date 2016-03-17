@@ -41,7 +41,7 @@ NeoBundle 'Yggdroot/indentLine'
 NeoBundleLazy 'scrooloose/nerdtree', { 'autoload': {'commands':['NERDTreeToggle','NERDTreeFind']} }
 "NeoBundleLazy 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
 NeoBundleLazy 't9md/vim-choosewin', {'autoload':{'commands': 'ChooseWin'}}
-NeoBundleLazy 'junegunn/limelight.vim', {'autoload': {'commands': ['Limelight','Limelight!!']}}
+"NeoBundleLazy 'junegunn/limelight.vim', {'autoload': {'commands': ['Limelight','Limelight!!']}}
 NeoBundleLazy 'szw/vim-maximizer', {'autoload':{'commands': 'MaximizerToggle'}}
 NeoBundleLazy 'majutsushi/tagbar', {'autoload':{'commands': 'TagbarToggle'}}
 NeoBundleLazy 'dyng/ctrlsf.vim', {'autoload':{'commands': 'CtrlSF'}}
@@ -177,6 +177,8 @@ noremap L $
 
 " markdown
 let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_fenced_languages = ['bash=sh', 'ruby', 'javascript']
+let g:vim_markdown_conceal = 0
 
 
 " -- NERDTree ------------
@@ -522,4 +524,3 @@ if g:autocomplete_engine == 'neocomplete'
     endif
   endfunction
 endif
-
