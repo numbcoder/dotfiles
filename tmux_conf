@@ -1,15 +1,15 @@
-# set prefix to C-a
-set -g prefix C-a
+# Add truecolor support
+set-option -ga terminal-overrides ",xterm-256color:Tc"
+# # Default terminal is 256 colors
+set -g default-terminal "screen-256color"
+# set prefix to C-s
+set -g prefix C-s
 # unbind default prefix
 unbind-key C-b
-# 设置C-a C-a为发送C-a键
-bind C-a send-prefix
-# 加载tmux配置文件的快捷键
+# bind C-s as prefix
+bind C-s send-prefix
+# reload config
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
-
-# utf8 is on
-set -g utf8 on
-set -g status-utf8 on
 
 # set only on OS X where it's required
 #set -g default-command "reattach-to-user-namespace -l $SHELL"
@@ -32,11 +32,8 @@ setw -g pane-base-index 1
 # renumber windows when a window is closed
 set -g renumber-windows on
 
-# 支持鼠标选择窗口，调节窗口大小
-setw -g mode-mouse on
-set -g mouse-select-pane on
-set -g mouse-resize-pane on
-set -g mouse-select-window on
+# mouse support
+set -g mouse on
 
 # fix vim mode switching delay
 set -s escape-time 0
@@ -53,7 +50,7 @@ unbind '"'
 bind - split-window -v
 bind _ split-window -v
 
-# 选择窗口分割快捷键
+# select pane
 bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
@@ -84,9 +81,6 @@ bind a last-window
 # visual style
 ##################################################
 
-# basic color settings
-# enable 256 colors
-set -g default-terminal "screen-256color"
 
 ### status bar
 set -g status-bg colour242

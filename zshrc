@@ -1,36 +1,50 @@
-# zplug https://github.com/b4b4r07/zplug
-# Plugins
-zplug "b4b4r07/zplug"
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-completions"
-# Support oh-my-zsh plugins and the like
-zplug "plugins/git", from:oh-my-zsh, if:"which git"
-zplug "plugins/brew", from:oh-my-zsh
-zplug "plugins/osx", from:oh-my-zsh
-zplug "themes/muse", from:oh-my-zsh
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
 
-# Install plugins if there are plugins that have not been installed
-#if ! zplug check --verbose; then
-    #printf "Install? [y/N]: "
-    #if read -q; then
-        #echo; zplug install
-    #fi
-#fi
-# Then, source plugins and add commands to $PATH
-zplug load --verbose
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
 # Customize to your needs...
-# autoload
-autoload -Uz compinit && compinit
-autoload -U promptinit && promptinit
-autoload -Uz colors && colors
+export CLICOLOR=1
+export TERM=xterm-256color
+#export TERM=screen-256color
 
 # load gruvbox color
-source ~/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh
+# source ~/.vim/bundle/gruvbox/gruvbox_256palette.sh
 
+# resolved conflict for git ls
+unalias gls
+# load coreutils
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 # ls color use coreutils
 eval `gdircolors -b $HOME/.dir_colors`
 alias ls='gls -F --show-control-chars --color=auto'
+
+# add rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# add nvm
+if [[ -s "$HOME/.nvm/nvm.sh" ]] ; then
+  source "$HOME/.nvm/nvm.sh" ;
+  #source "$HOME/.nvm/bash_completion" ;
+fi
+
+# add go path
+export GOPATH=$HOME/golang
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+
+# exercism
+export PATH="$HOME/Git/exercism:$PATH"
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 #alias
 alias ll='ls -alhF'
@@ -66,4 +80,5 @@ alias zshreload='source ~/.zshrc'
 
 alias scm="rlwrap -r -c -f ~/.mit_scheme_bindings.txt mit-scheme"
 
-alias pe="proxychains4 open /Applications/Emacs.app"
+alias pc="proxychains4"
+alias stree='/Applications/SourceTree.app/Contents/Resources/stree'
