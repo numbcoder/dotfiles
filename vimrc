@@ -18,24 +18,24 @@ Plug 'honza/vim-snippets'
 "Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'JazzCore/ctrlp-cmatcher',
-Plug 'nixprime/cpsm', {'do': './install.sh'}
+" Plug 'nixprime/cpsm', {'do': './install.sh'}
 
 "Plug 'fisadev/vim-ctrlp-cmdpalette'
 "Plug 'tacahiroy/ctrlp-funky'
-" Plug 'scrooloose/syntastic'
 "Plug 'w0rp/ale'
 Plug 'neomake/neomake'
 Plug 'scrooloose/nerdcommenter'
-"Plug 'Raimondi/delimitMate'
+Plug 'machakann/vim-sandwich'
 Plug 'cohama/lexima.vim'
 "Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
 "Plug 'altercation/vim-colors-solarized'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 " Plug 'NLKNguyen/papercolor-theme'
-Plug 'rakr/vim-one'
-Plug 'joshdick/onedark.vim'
+" Plug 'rakr/vim-one'
+" Plug 'joshdick/onedark.vim'
+Plug 'numbcoder/vim-dracula'
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -79,7 +79,6 @@ Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 " Plug 'luochen1990/rainbow', {'for': ['scheme', 'ruby', 'css', 'html', 'javascript']}
 Plug 'junegunn/rainbow_parentheses.vim', {'for': ['scheme', 'ruby', 'css', 'html', 'javascript']}
 "Plug 'kovisoft/slimv', {'autoload':{'filetypes':['scheme', 'lisp']}}
-Plug 'tpope/vim-surround'
 "Plug 'kana/vim-smartinput'
 "Plug 'benmills/vimux'
 "Plug 'tpope/vim-fugitive'
@@ -229,7 +228,7 @@ let g:ctrlp_extensions = ['line', 'buffertag']
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_clear_cache_on_exit=1
 " disable caching when file count < 100
-let g:ctrlp_use_caching = 100
+let g:ctrlp_use_caching = 200
 if executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
@@ -360,9 +359,7 @@ let g:solarized_visibility="high"
 let g:solarized_hitrail=1
 
 set background=dark
-"colorscheme gruvbox
-" colorscheme PaperColor
-colorscheme one
+colorscheme dracula
 
 
 
