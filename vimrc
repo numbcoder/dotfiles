@@ -4,15 +4,22 @@ set nocompatible
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/bundle')
 
 " ======================== Plugins ========================
-"Plug 'Shougo/neocomplete.vim'
-"Plug 'Shougo/neosnippet'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --tern-completer --gocode-completer'}
+function! BuildYCM(info)
+  " info is a dictionary with 3 fields
+  " - name:   name of the plugin
+  " - status: 'installed', 'updated', or 'unchanged'
+  " - force:  set on PlugInstall! or PlugUpdate!
+  if a:info.status == 'installed' || a:info.force
+    !./install.py --tern-completer --gocode-completer
+  endif
+endfunction
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 "Plug 'tomasr/molokai'
@@ -22,15 +29,15 @@ Plug 'ctrlpvim/ctrlp.vim'
 
 "Plug 'fisadev/vim-ctrlp-cmdpalette'
 "Plug 'tacahiroy/ctrlp-funky'
-"Plug 'w0rp/ale'
-Plug 'neomake/neomake'
+Plug 'w0rp/ale'
+"Plug 'neomake/neomake'
 Plug 'scrooloose/nerdcommenter'
 Plug 'machakann/vim-sandwich'
 Plug 'cohama/lexima.vim'
 "Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
-"Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 " Plug 'morhetz/gruvbox'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'rakr/vim-one'
@@ -43,6 +50,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
+Plug 'haya14busa/incsearch.vim'
 
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 "Plug 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
@@ -72,11 +80,9 @@ Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'jimenezrick/vimerl', {'for': 'erlang'}
 "Plug 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
 Plug 'vim-erlang/vim-erlang-tags', {'for': 'erlang'}
-Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}
+Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
+Plug 'slashmili/alchemist.vim', {'for': 'elixir'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-"Plug 'xolox/vim-lua-ftplugin', {'depends': 'xolox/vim-misc', 'autoload':{'filetypes':['lua']}}
-"Plug 'dantezhu/lua_indent', {'autoload':{'filetypes':['lua']}}
-" Plug 'luochen1990/rainbow', {'for': ['scheme', 'ruby', 'css', 'html', 'javascript']}
 Plug 'junegunn/rainbow_parentheses.vim', {'for': ['scheme', 'ruby', 'css', 'html', 'javascript']}
 "Plug 'kovisoft/slimv', {'autoload':{'filetypes':['scheme', 'lisp']}}
 "Plug 'kana/vim-smartinput'
@@ -126,8 +132,6 @@ set tabstop=2
 set expandtab
 set cindent shiftwidth=2
 set autoindent shiftwidth=2
-"开启抗锯齿
-set antialias
 "disable mouse in terminal
 set mouse-=a
 " set popup list count
@@ -248,7 +252,6 @@ nmap <Leader>b :CtrlPBuffer<CR>
 nmap <D-e> :CtrlPLine %<CR>
 nnoremap <D-r> :CtrlPBufTag<Cr>
 " let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
-let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 " narrow the list down with a word under cursor
 "nnoremap @ :execute 'CtrlPFunky ' . expand('<cword>')<Cr>"
 "let g:ctrlp_funky_syntax_highlight = 1
@@ -269,7 +272,7 @@ nmap <Leader>l :Limelight!!<CR>
 
 "----- airline --------
 set laststatus=2
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 " disable whitespace check
 let g:airline#extensions#whitespace#enabled = 0
 
@@ -336,11 +339,13 @@ let g:gitgutter_eager = 0
 
 
 filetype plugin on
-set term=xterm-256color
 set t_Co=256
 " true color support
-if (has("termguicolors"))
+if has("termguicolors")
   set termguicolors
+endif
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
 endif
 " fix ture color for tmux
 set t_8b=[48;2;%lu;%lu;%lum
@@ -348,17 +353,10 @@ set t_8f=[38;2;%lu;%lu;%lum
 
 syntax enable
 
-let g:gruvbox_contrast_dark="hard"
+" let g:gruvbox_contrast_dark="hard"
 " let g:one_allow_italics = 1
 
-"colorscheme solarized
-let g:solarized_termtrans=1
-let g:solarized_termcolors=256
-let g:solarized_contrast="high"
-let g:solarized_visibility="high"
-let g:solarized_hitrail=1
-
-set background=dark
+" set background=dark
 colorscheme dracula
 
 
@@ -409,39 +407,46 @@ vnoremap <silent> <Enter> :EasyAlign<cr>
 "------- json ----------
 let g:vim_json_syntax_conceal = 2
 
-"------------ ale -------------
-let g:ale_lint_on_text_changed = 0
+" ale =========================================================== {{{
+let g:airline#extensions#ale#enabled = 1
+let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '∆'
-" let g:ale_linters = {
-"       \   'javascript': ['eslint'],
-"       \   'ruby': ['rubocop'],
-"       \}
-
-" Neomake =========================================================== {{{
-let g:neomake_error_sign   = {'text': '✗', 'texthl': 'ErrorMsg'}
-let g:neomake_warning_sign = {'text': '▵', 'texthl': 'MoreMsg'}
-let g:neomake_message_sign = {'text': '!', 'texthl': 'MoreMsg'}
-let g:neomake_info_sign    = {'text': '●', 'texthl': 'MoreMsg'}
-let g:neomake_verbose = 0
-let g:neomake_serialize = 1
-let g:neomake_javascript_enabled_checkers = ['eslint']
-let g:neomake_ruby_enabled_checkers = ['rubocop']
-let g:neomake_vim_checkers=['vimlint']
-autocmd! BufWritePost * Neomake
+"sign: ✗ ∆ ☭ 卐 ❂ ¤ ◆ ◇
+" let g:ale_sign_error = '✗'
+let g:ale_sign_error = '☭'
+let g:ale_sign_warning = '•'
+highlight ALEErrorSign guibg=NONE guifg=red
+highlight ALEWarningSign guibg=NONE guifg=yellow
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_linters = {
+      \   'javascript': ['eslint'],
+      \   'ruby': ['rubocop'],
+      \}
 " }}}
 
-"------------ syntastic -------------
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs = 1
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_ruby_checkers = ['mri']
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '∆'
-let g:syntastic_style_error_symbol = '✠'
-let g:syntastic_style_warning_symbol = '≈'
+" Neomake =========================================================== {{{
+" let g:neomake_error_sign   = {'text': '✗', 'texthl': 'ErrorMsg'}
+" let g:neomake_warning_sign = {'text': '▵', 'texthl': 'MoreMsg'}
+" let g:neomake_message_sign = {'text': '!', 'texthl': 'MoreMsg'}
+" let g:neomake_info_sign    = {'text': '●', 'texthl': 'MoreMsg'}
+" let g:neomake_verbose = 0
+" let g:neomake_serialize = 1
+" let g:neomake_javascript_enabled_checkers = ['eslint']
+" let g:neomake_ruby_enabled_checkers = ['rubocop']
+" let g:neomake_vim_checkers=['vimlint']
+" autocmd! BufWritePost * Neomake
+" }}}
+
+" incsearch =========================================================== {{{
+let g:incsearch#auto_nohlsearch = 1
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+" }}}
 
 "------------ ctrlsf -------------
 let g:ctrlsf_ackprg = 'ag'
@@ -487,5 +492,15 @@ let g:UltiSnipsExpandTrigger       = "<C-l>"
 let g:UltiSnipsListSnippets        = "<C-s>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+"}}}
+"
+" Ruby ============================================================= {{{
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+let g:rubycomplete_rails = 1
+let g:rubycomplete_load_gemfile = 1
+let g:rubycomplete_use_bundler = 1
+let g:rubycomplete_include_object = 1
+let g:rubycomplete_include_objectspace = 1
 "}}}
 
