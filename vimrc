@@ -20,6 +20,12 @@ function! BuildYCM(info)
   endif
 endfunction
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+" Plug 'roxma/nvim-completion-manager'
+" if !has('nvim')
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'roxma/ncm-rct-complete'
+" Plug 'fgrsnau/ncm-otherbuf'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 "Plug 'tomasr/molokai'
@@ -34,6 +40,7 @@ Plug 'w0rp/ale'
 Plug 'scrooloose/nerdcommenter'
 Plug 'machakann/vim-sandwich'
 Plug 'cohama/lexima.vim'
+" Plug 'sbdchd/neoformat'
 "Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
@@ -74,6 +81,7 @@ Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'tpope/vim-rails', {'for': 'ruby' }
 Plug 'iurifq/ctrlp-rails.vim', {'for': 'ruby'}
+Plug 'ruby-formatter/rufo-vim', {'for': 'ruby'}
 Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
 Plug 'fatih/vim-go', {'for': 'go'}
@@ -145,8 +153,9 @@ let mapleader = "\<Space>"
 " 按<Leader><space> 取消搜索高亮
 nmap <silent> <leader>, :nohlsearch<CR>
 
-"open define in horizontal split
-"map <D-]> :sp <CR>:exec("tag ".expand("<cword>"))<CR>
+" go to define in horizontal split
+noremap <D-]> :sp <CR>:exec("tag ".expand("<cword>"))<CR>
+noremap <C-g> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " map ; to :
 nnoremap ; :
@@ -180,6 +189,7 @@ nnoremap Y y$
 noremap H ^
 " 将光标移至行尾
 noremap L $
+
 
 " markdown
 let g:vim_markdown_folding_disabled=1
@@ -233,11 +243,11 @@ let g:ctrlp_open_new_file = 't'
 let g:ctrlp_clear_cache_on_exit=1
 " disable caching when file count < 100
 let g:ctrlp_use_caching = 200
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
-  " Use ag in CtrlP for listing files.
-  let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+if executable('rg')
+  " Use rg over Grep
+  set grepprg=rg\ --color=never
+  " Use rg in CtrlP for listing files.
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
 endif
 " Open ctrlp with cmd+p
 "let g:ctrlp_map = '<D-p>'
@@ -342,14 +352,14 @@ filetype plugin on
 set t_Co=256
 " true color support
 if has("termguicolors")
+  " fix ture color for tmux
+  set t_8b=[48;2;%lu;%lu;%lum
+  set t_8f=[38;2;%lu;%lu;%lum
   set termguicolors
 endif
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
 endif
-" fix ture color for tmux
-set t_8b=[48;2;%lu;%lu;%lum
-set t_8f=[38;2;%lu;%lu;%lum
 
 syntax enable
 
@@ -407,13 +417,17 @@ vnoremap <silent> <Enter> :EasyAlign<cr>
 "------- json ----------
 let g:vim_json_syntax_conceal = 2
 
+" neoformat =========================================================== {{{
+let g:neoformat_enabled_ruby = ['rufo']
+" }}}
+
 " ale =========================================================== {{{
 let g:airline#extensions#ale#enabled = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
 "sign: ✗ ∆ ☭ 卐 ❂ ¤ ◆ ◇
 " let g:ale_sign_error = '✗'
-let g:ale_sign_error = '☭'
+let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '•'
 highlight ALEErrorSign guibg=NONE guifg=red
 highlight ALEWarningSign guibg=NONE guifg=yellow
@@ -449,7 +463,7 @@ map N  <Plug>(incsearch-nohl-N)
 " }}}
 
 "------------ ctrlsf -------------
-let g:ctrlsf_ackprg = 'ag'
+let g:ctrlsf_ackprg = 'rg'
 let g:ctrlsf_auto_close = 0
 map <D-F> :CtrlSF<space>
 
@@ -469,6 +483,18 @@ let g:choosewin_overlay_enable = 1
 " overlay font broke on mutibyte buffer?
 let g:choosewin_overlay_clear_multibyte = 1
 let g:choosewin_blink_on_land = 0
+"}}}
+
+" nvim-completion-manager ============================================================= {{{
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" let g:cm_sources_override = {
+"           \ 'cm-filepath': {'priority': 1},
+"           \ 'cm-ultisnips': {'priority': 1},
+"           \ 'cm-otherbuf': {'abbreviation': 'KW'}
+"           \ }
+" " \ 'cm-keyword-continue': {'auto_popup': 1, 'cm_refresh_length': 1, 'sort': 1}
+" let g:cm_refresh_length=[[1,3],[2, 1]]
 "}}}
 
 " YouCompleteMe ============================================================= {{{
