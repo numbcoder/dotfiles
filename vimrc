@@ -20,27 +20,24 @@ function! BuildYCM(info)
   endif
 endfunction
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-" Plug 'roxma/nvim-completion-manager'
-" if !has('nvim')
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" Plug 'roxma/ncm-rct-complete'
-" Plug 'fgrsnau/ncm-otherbuf'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 "Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'iurifq/ctrlp-rails.vim', {'for': 'ruby'}
 " Plug 'JazzCore/ctrlp-cmatcher',
 " Plug 'nixprime/cpsm', {'do': './install.sh'}
 
 "Plug 'fisadev/vim-ctrlp-cmdpalette'
 "Plug 'tacahiroy/ctrlp-funky'
 Plug 'w0rp/ale'
-"Plug 'neomake/neomake'
 Plug 'scrooloose/nerdcommenter'
 Plug 'machakann/vim-sandwich'
-Plug 'cohama/lexima.vim'
-" Plug 'sbdchd/neoformat'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-rsi'
+Plug 'sbdchd/neoformat'
 "Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
@@ -48,8 +45,9 @@ Plug 'terryma/vim-multiple-cursors'
 " Plug 'morhetz/gruvbox'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'rakr/vim-one'
+Plug 'KeitaNakamura/neodark.vim'
 " Plug 'joshdick/onedark.vim'
-Plug 'numbcoder/vim-dracula'
+" Plug 'numbcoder/vim-dracula'
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -65,23 +63,17 @@ Plug 't9md/vim-choosewin', {'on': 'ChooseWin'}
 "Plug 'junegunn/limelight.vim', {'autoload': {'commands': ['Limelight','Limelight!!']}}
 Plug 'szw/vim-maximizer', {'on': 'MaximizerToggle'}
 Plug 'dyng/ctrlsf.vim', {'on': 'CtrlSF'}
-Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 "Plug 'isRuslan/vim-es6', {'for': 'javascript'}
 "Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'elzr/vim-json', {'for': 'json'}
-Plug 'mxw/vim-jsx', {'for': ['javascript', 'javascript.jsx', 'jsx']}
 " Plug 'marijnh/tern_for_vim', {'autoload':{'filetypes':['javascript']}}
-" Plug 'moll/vim-node', {'autoload':{'filetypes':['javascript']}}
 Plug 'digitaltoad/vim-pug', {'for': ['pug', 'jade']}
-Plug 'briancollins/vim-jst', {'for': ['ejs', 'jst']}
-Plug 'slim-template/vim-slim', {'for': 'slim'}
 Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'tpope/vim-rails', {'for': 'ruby' }
-Plug 'iurifq/ctrlp-rails.vim', {'for': 'ruby'}
-Plug 'ruby-formatter/rufo-vim', {'for': 'ruby'}
+" Plug 'ruby-formatter/rufo-vim', {'for': 'ruby'}
 Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
 Plug 'fatih/vim-go', {'for': 'go'}
@@ -144,6 +136,7 @@ set autoindent shiftwidth=2
 set mouse-=a
 " set popup list count
 set pumheight=12
+set updatetime=1000
 " 自动保存
 "au BufLeave,FocusLost * silent! w
 " 设置开启语法高亮
@@ -151,7 +144,7 @@ syntax on
 " map leader to space
 let mapleader = "\<Space>"
 " 按<Leader><space> 取消搜索高亮
-nmap <silent> <leader>, :nohlsearch<CR>
+nnoremap <silent> <leader>, :nohlsearch<CR>
 
 " go to define in horizontal split
 noremap <D-]> :sp <CR>:exec("tag ".expand("<cword>"))<CR>
@@ -167,16 +160,17 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <D-i> <C-w><C-]>
 
+" move to tpope/vim-rsi
 " moving aroung in command mode
-cnoremap <C-A> <Home>
-cnoremap <C-F> <Right>
-cnoremap <C-B> <Left>
+" cnoremap <C-A> <Home>
+" cnoremap <C-F> <Right>
+" cnoremap <C-B> <Left>
 
 "Emacs 式快捷键
-inoremap <C-A> <Home>
-inoremap <C-E> <End>
-inoremap <C-F> <Right>
-inoremap <C-B> <Left>
+" inoremap <C-A> <Home>
+" inoremap <C-E> <End>
+" inoremap <C-F> <Right>
+" inoremap <C-B> <Left>
 
 " Reselect visual block after indent/outdent
 vnoremap < <gv
@@ -186,9 +180,9 @@ vnoremap > >gv
 nnoremap Y y$
 
 " 将光标移至行首
-noremap H ^
+nnoremap H ^
 " 将光标移至行尾
-noremap L $
+nnoremap L $
 
 
 " markdown
@@ -200,21 +194,16 @@ let g:vim_markdown_conceal = 0
 " -- NERDTree ------------
 let g:NERDTreeWinSize = 28
 let NERDTreeIgnore=['\.beam$']
-" 把 F8 Alt+o映射到 启动NERDTree插件
-"nmap <F8> :NERDTreeTabsToggle<CR>
-"map <M-o> :NERDTreeToggle<CR>
-"nmap <M-o> :NERDTreeTabsToggle<CR>
-"nmap <D-O> :NERDTreeTabsToggle<CR>
-nmap <D-O> :NERDTreeToggle<CR>
-nmap <leader>o :NERDTreeFind<CR>
+nnoremap <D-O> :NERDTreeToggle<CR>
+nnoremap <leader>o :NERDTreeFind<CR>
 "let g:nerdtree_tabs_open_on_gui_startup = 0
 " -- NERDTree end ------------
 
 " 把 CTRL-S 映射为 保存
-imap <C-S> <C-C>:w<CR>
-imap <D-s> <esc>:w<cr>
-map :W :w<CR>
-map <M-s> :w<CR>
+inoremap <C-S> <C-C>:w<CR>
+inoremap <D-s> <esc>:w<cr>
+noremap :W :w<CR>
+noremap <M-s> :w<CR>
 "imap jj <ESC>
 "my configure,F3 F4 switch the tablabel
 nnoremap ^T :tabnew .<CR>
@@ -241,44 +230,45 @@ let g:ctrlp_max_height = 15
 let g:ctrlp_extensions = ['line', 'buffertag']
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_clear_cache_on_exit=1
-" disable caching when file count < 100
-let g:ctrlp_use_caching = 200
+" disable caching when file count < 500
+let g:ctrlp_use_caching = 500
+if executable('fd')
+  let g:ctrlp_user_command = 'fd --type f --color=never "" %s'
+endif
 if executable('rg')
   " Use rg over Grep
-  set grepprg=rg\ --color=never
-  " Use rg in CtrlP for listing files.
-  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+  set grepprg=rg\ --vimgrep\ --no-heading
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 " Open ctrlp with cmd+p
 "let g:ctrlp_map = '<D-p>'
 " Open goto file
 "nmap <D-p> :CtrlP<cr>
 "imap <D-p> <esc>:CtrlP<cr>
-nmap <D-p> :CtrlP<CR>
-nmap <Leader>p :CtrlP<CR>
+nnoremap <D-p> :CtrlP<CR>
+nnoremap <Leader>p :CtrlP<CR>
 " only search in current buffer
-nmap <D-b> :CtrlPBuffer<CR>
-nmap <Leader>b :CtrlPBuffer<CR>
-nmap <D-e> :CtrlPLine %<CR>
+nnoremap <D-b> :CtrlPBuffer<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <D-e> :CtrlPLine %<CR>
 nnoremap <D-r> :CtrlPBufTag<Cr>
+let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 " let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 " narrow the list down with a word under cursor
 "nnoremap @ :execute 'CtrlPFunky ' . expand('<cword>')<Cr>"
 "let g:ctrlp_funky_syntax_highlight = 1
-autocmd VimEnter * ClearCtrlPCache
-nmap <F5> :ClearCtrlPCache<CR>
 "---- ctrlp-rails --------
-nmap <Leader>rm :CtrlPModels<CR>
-nmap <Leader>rc :CtrlPControllers<CR>
-nmap <Leader>rv ::CtrlPViews<CR>
-nmap <Leader>rd :CtrlPMigrations<CR>
+nnoremap <Leader>rm :CtrlPModels<CR>
+nnoremap <Leader>rc :CtrlPControllers<CR>
+nnoremap <Leader>rv ::CtrlPViews<CR>
+nnoremap <Leader>rd :CtrlPMigrations<CR>
 
 "------------- Limelight ----------
 " Default: 0.5
 "let g:limelight_default_coefficient = 0.7
 " Number of preceding/following paragraphs to include (default: 0)
 "let g:limelight_paragraph_span = 1
-nmap <Leader>l :Limelight!!<CR>
+nnoremap <Leader>l :Limelight!!<CR>
 
 "----- airline --------
 set laststatus=2
@@ -316,9 +306,9 @@ nnoremap <leader>t :TagbarToggle<CR>
 let g:NERDSpaceDelims = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
-map <D-/> <plug>NERDCommenterToggle<CR>
-map <leader>/ <plug>NERDCommenterToggle<CR>
-imap <D-/> <Esc><plug>NERDCommenterToggle<CR>
+nmap <D-/> <Plug>NERDCommenterToggle<CR>
+nmap <leader>/ <Plug>NERDCommenterToggle<CR>
+imap <D-/> <Esc><Plug>NERDCommenterToggle<CR>
 
 "------ easy-motion --------
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -335,27 +325,25 @@ nmap <Leader>s <Plug>(easymotion-sn)
 " Turn on case sensitive feature
 let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader><leader> <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
+nmap <Leader>j <Plug>(easymotion-j)
+nmap <Leader><leader> <Plug>(easymotion-j)
+nmap <Leader>k <Plug>(easymotion-k)
 
 "------ Ack --------
 "map <D-F> :Ack<space>
 
 "------ gitgutter --------
 let g:gitgutter_map_keys = 0
-let g:gitgutter_realtime = 0
-let g:gitgutter_eager = 0
-
 
 filetype plugin on
-set t_Co=256
 " true color support
 if has("termguicolors")
   " fix ture color for tmux
   set t_8b=[48;2;%lu;%lu;%lum
   set t_8f=[38;2;%lu;%lu;%lum
   set termguicolors
+else
+  set t_Co=256
 endif
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -366,10 +354,10 @@ syntax enable
 " let g:gruvbox_contrast_dark="hard"
 " let g:one_allow_italics = 1
 
+" colorscheme dracula
+" colorscheme one
+colorscheme neodark
 " set background=dark
-colorscheme dracula
-
-
 
 "自动切换工作目录
 "set autochdir
@@ -409,11 +397,6 @@ au FileType erlang nnoremap <buffer> <D-i> :call VimErlangTagsSelect(1)<cr><c-]>
 "------- vim-easy-align ---------
 vnoremap <silent> <Enter> :EasyAlign<cr>
 
-"------- tern_for_vim----------
-"let g:tern_show_argument_hints = 'yes'
-"au FileType javascript map <D-i> :TernType<CR>
-"au FileType javascript map <D-I> :TernDefSplit<CR>
-
 "------- json ----------
 let g:vim_json_syntax_conceal = 2
 
@@ -429,8 +412,8 @@ let g:ale_lint_on_save = 1
 " let g:ale_sign_error = '✗'
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '•'
-highlight ALEErrorSign guibg=NONE guifg=red
-highlight ALEWarningSign guibg=NONE guifg=yellow
+" highlight ALEErrorSign guibg=NONE guifg=red
+" highlight ALEWarningSign guibg=NONE guifg=yellow
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
@@ -438,6 +421,11 @@ let g:ale_linters = {
       \   'javascript': ['eslint'],
       \   'ruby': ['rubocop'],
       \}
+let g:ale_fixers = {
+      \   'javascript': ['eslint'],
+      \   'ruby': ['rubocop'],
+      \}
+" let g:ale_fix_on_save = 1
 " }}}
 
 " Neomake =========================================================== {{{
@@ -455,17 +443,17 @@ let g:ale_linters = {
 
 " incsearch =========================================================== {{{
 let g:incsearch#auto_nohlsearch = 1
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
+nmap /  <Plug>(incsearch-forward)
+nmap ?  <Plug>(incsearch-backward)
+nmap g/ <Plug>(incsearch-stay)
+nmap n  <Plug>(incsearch-nohl-n)
+nmap N  <Plug>(incsearch-nohl-N)
 " }}}
 
 "------------ ctrlsf -------------
 let g:ctrlsf_ackprg = 'rg'
 let g:ctrlsf_auto_close = 0
-map <D-F> :CtrlSF<space>
+nnoremap <leader>f :CtrlSF<space>
 
 "------------ rainbow -------------
 " let g:rainbow_active = 1
@@ -483,18 +471,6 @@ let g:choosewin_overlay_enable = 1
 " overlay font broke on mutibyte buffer?
 let g:choosewin_overlay_clear_multibyte = 1
 let g:choosewin_blink_on_land = 0
-"}}}
-
-" nvim-completion-manager ============================================================= {{{
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" let g:cm_sources_override = {
-"           \ 'cm-filepath': {'priority': 1},
-"           \ 'cm-ultisnips': {'priority': 1},
-"           \ 'cm-otherbuf': {'abbreviation': 'KW'}
-"           \ }
-" " \ 'cm-keyword-continue': {'auto_popup': 1, 'cm_refresh_length': 1, 'sort': 1}
-" let g:cm_refresh_length=[[1,3],[2, 1]]
 "}}}
 
 " YouCompleteMe ============================================================= {{{
