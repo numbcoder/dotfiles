@@ -1,7 +1,8 @@
 # Add truecolor support
 set-option -ga terminal-overrides ",xterm-256color:Tc"
+# set -ga terminal-overrides ',*:Tc'
 # # Default terminal is 256 colors
-set -g default-terminal "screen-256color"
+# set -g default-terminal "screen-256color"
 # set prefix to C-s
 set -g prefix C-s
 # unbind default prefix
@@ -22,7 +23,8 @@ set -g status-keys emacs
 set -g focus-events on
 
 # super useful when using "grouped sessions" and multi-monitor setup
-setw -g aggressive-resize on
+# conflict with iIerm2
+# setw -g aggressive-resize on
 
 ###### layout settings ########
 # window start index
@@ -33,7 +35,10 @@ setw -g pane-base-index 1
 set -g renumber-windows on
 
 # mouse support
+# set-option -g default-command "reattach-to-user-namespace -l zsh"
 set -g mouse on
+bind-key -T root WheelUpPane   if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
+bind-key -T root WheelDownPane if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; send-keys -M"
 
 # fix vim mode switching delay
 set -s escape-time 0
@@ -83,26 +88,23 @@ bind a last-window
 
 
 ### status bar
-set -g status-bg colour242
-set -g status-fg colour232
-
 # status bar items
 # left side
 set -g status-left-length 42
-set -g status-left "#[bg=colour112,fg=colour232,bold]  #h #[bg=#1e90ff,fg=colour112,nobold]#[bg=#1e90ff,fg=colour232,bold] #S #[bg=colour242,fg=#1e90ff,nobold]"
+set -g status-left "#[bg=green,fg=colour232,bold]  #h #[bg=blue,fg=colour232,bold] #S "
 # right side
 set -g status-right-length 25
-set -g status-right "#[bg=colour242,fg=colour112,nobold]#[bg=colour112,fg=colour232,bold] %H:%M %m/%d/%Y %a "
+set -g status-right "#[bg=green,fg=colour232,bold] %H:%M %m/%d/%Y %a "
 
 # window list
 # strip window separator
-setw -g window-status-separator " "
+setw -g window-status-separator ""
 
 # for non-current window
-setw -g window-status-format "#[bg=colour236,fg=colour242,nobold]#[bg=colour236,fg=colour248,nobold] #I #W #[bg=colour242,fg=colour236]"
+setw -g window-status-format "#[bg=colour236,fg=colour248,nobold] #I #W "
 
 # for current window
-setw -g window-status-current-format "#[bg=colour105,fg=colour242,nobold]#[bg=colour105,fg=colour235,bold] #I #W #[fg=colour105,bg=colour242,nobold]"
+setw -g window-status-current-format "#[bg=magenta,fg=colour235,bold] #I #W "
 
 #setw -g window-status-alert-fg red
 
@@ -122,17 +124,38 @@ set -g visual-activity off
 # set the alert visual style
 setw -g window-status-activity-attr blink
 
+# default statusbar colors
+set-option -g status-bg colour235 # black
+set-option -g status-fg colour6   # orange
+set-option -g status-attr default
 
-### pane divider color
-set -g pane-border-fg colour238
-set -g pane-active-border-fg colour105
+# default window title colors
+set-window-option -g window-status-fg colour15
+set-window-option -g window-status-bg default
 
-## pane indicator
-set -g display-panes-colour colour238
-set -g display-panes-active-colour colour105
+# active window title colors
+set-window-option -g window-status-current-fg red
+set-window-option -g window-status-current-bg default
 
-### command line color
-set -g message-fg colour242
-set -g message-bg colour232
-set -g message-attr bright,italics
+# pane border
+set-option -g pane-border-fg colour8
+set-option -g pane-active-border-fg green
 
+# message text
+set-option -g message-bg colour235 # black
+set-option -g message-fg red
+
+# modes
+setw -g mode-attr bold
+setw -g mode-fg colour13
+setw -g mode-bg colour11
+
+# pane number display
+set-option -g display-panes-active-colour green
+set-option -g display-panes-colour blue
+
+# clock
+setw -g clock-mode-colour blue
+
+# bell
+# set-window-option -g window-status-bell-style fg=colour235,bg=colour160 #base02, red
