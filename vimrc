@@ -10,20 +10,10 @@ endif
 call plug#begin('~/.vim/bundle')
 
 " ======================== Plugins ========================
-function! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  if a:info.status == 'installed' || a:info.force
-    !./install.py --tern-completer --gocode-completer
-  endif
-endfunction
-
 let complete_engin = 'deoplete'
 
-if complete_engin ==# 'ycm'
-  Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+if complete_engin ==# 'coc'
+  Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 endif
@@ -526,23 +516,37 @@ if complete_engin ==# 'deoplete'
   let g:LanguageClient_serverCommands = {
         \ 'ruby': ['solargraph', 'stdio'],
         \ }
-  nnoremap <leader>gg :call LanguageClient_contextMenu()<CR>
+  nnoremap <leader>ll :call LanguageClient_contextMenu()<CR>
+  nnoremap <leader>ld :call LanguageClient_textDocument_definition()<CR>
 endif
 
-if complete_engin ==# 'ycm'
-  " YouCompleteMe ============================================================= {{{
-  let g:ycm_complete_in_comments = 1
-  let g:ycm_collect_identifiers_from_comments_and_strings = 1
-  let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
-  let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
-  let g:ycm_autoclose_preview_window_after_insertion = 1
-  let g:ycm_collect_identifiers_from_tags_files = 1
-  let g:ycm_seed_identifiers_with_syntax = 1
-  " for erlang omnicomplete
-  let g:erlang_completion_cache = 0
-  au FileType erlang let g:ycm_cache_omnifunc = 0
-  "}}}
+if complete_engin ==# 'coc'
+  " if hidden not set, TextEdit might fail.
+  set hidden
 
+  " Better display for messages
+  set cmdheight=2
+
+  " always show signcolumns
+  set signcolumn=yes
+
+  " Use tab for trigger completion with characters ahead and navigate.
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  " Use <c-space> for trigger completion.
+  inoremap <silent><expr> <c-space> coc#refresh()
+
+  " Use <C-x><C-o> to complete 'word', 'emoji' and 'include' sources
+  imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
   " UltiSnips ============================================================= {{{
   let g:UltiSnipsExpandTrigger       = "<C-l>"
   let g:UltiSnipsListSnippets        = "<C-s>"
@@ -551,18 +555,3 @@ if complete_engin ==# 'ycm'
   "}}}
 endif
 
-" Ruby ============================================================= {{{
-" let g:rubycomplete_buffer_loading = 1
-" let g:rubycomplete_classes_in_global = 1
-" let g:rubycomplete_rails = 1
-" let g:rubycomplete_load_gemfile = 1
-" let g:rubycomplete_use_bundler = 1
-" let g:rubycomplete_include_object = 1
-" let g:rubycomplete_include_objectspace = 1
-" call deoplete#custom#var('omni', 'input_patterns', {
-"       \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
-"       \})
-" call deoplete#custom#source('omni', 'functions', {
-"       \ 'ruby':  'rubycomplete#Complete'
-"       \})
-"}}}
