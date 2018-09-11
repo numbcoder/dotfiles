@@ -1,4 +1,4 @@
-"set transparency=4
+set transparency=5
 
 "去除工具栏
 set guioptions-=T
@@ -9,9 +9,11 @@ set guioptions-=L
 "去除右边滚动条
 set guioptions-=r
 
-"set guifont=Monaco:h12.5
-"set guifont=Menlo\ Regular:h13
-"set guifont=Monaco-Powerline:h12
+" set guioptions+=k
+
+" support ligatures
+"set macligatures
+set guifont=SF\ Mono\ for\ Powerline:h13 | set linespace=1
 
 " Disable print shortcut for 'goto anything...'
 macmenu File.Print key=<nop>

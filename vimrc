@@ -19,9 +19,30 @@ function! BuildYCM(info)
     !./install.py --tern-completer --gocode-completer
   endif
 endfunction
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+
+let complete_engin = 'deoplete'
+
+if complete_engin ==# 'ycm'
+  Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+endif
+
+if complete_engin ==# 'deoplete'
+  if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+	Plug 'ujihisa/neco-look'
+  Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+  Plug 'zchee/deoplete-go', {'do': 'make'}
+endif
+
 "Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -31,24 +52,28 @@ Plug 'iurifq/ctrlp-rails.vim', {'for': 'ruby'}
 
 "Plug 'fisadev/vim-ctrlp-cmdpalette'
 "Plug 'tacahiroy/ctrlp-funky'
-Plug 'w0rp/ale'
-Plug 'scrooloose/nerdcommenter'
+Plug 'neomake/neomake'
+" Plug 'w0rp/ale'
 Plug 'machakann/vim-sandwich'
 Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rsi'
 Plug 'sbdchd/neoformat'
 "Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
+" Plug 'mg979/vim-visual-multi'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'morhetz/gruvbox'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'rakr/vim-one'
-Plug 'KeitaNakamura/neodark.vim'
+" Plug 'KeitaNakamura/neodark.vim'
+Plug 'numbcoder/neodark.vim'
+" Plug 'numbcoder/neodark.vim'
 " Plug 'joshdick/onedark.vim'
 " Plug 'numbcoder/vim-dracula'
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
@@ -57,6 +82,7 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'haya14busa/incsearch.vim'
 
+Plug 'iamcco/dict.vim'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 "Plug 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
 Plug 't9md/vim-choosewin', {'on': 'ChooseWin'}
@@ -76,17 +102,20 @@ Plug 'tpope/vim-rails', {'for': 'ruby' }
 " Plug 'ruby-formatter/rufo-vim', {'for': 'ruby'}
 Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
-Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries'}
 Plug 'jimenezrick/vimerl', {'for': 'erlang'}
 "Plug 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
 Plug 'vim-erlang/vim-erlang-tags', {'for': 'erlang'}
 Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
 Plug 'slashmili/alchemist.vim', {'for': 'elixir'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-Plug 'junegunn/rainbow_parentheses.vim', {'for': ['scheme', 'ruby', 'css', 'html', 'javascript']}
-"Plug 'kovisoft/slimv', {'autoload':{'filetypes':['scheme', 'lisp']}}
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'kovisoft/slimv', {'for': ['scheme', 'racket', 'lisp']}
+" Plug 'wlangstroth/vim-racket', {'for': ['racket', 'scheme']}
+Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release', 'for': ['scheme', 'racket', 'lisp']}
+" Plug 'bhurlow/vim-parinfer', {'for': ['scheme', 'racket', 'lisp']}
+" Plug 'benmills/vimux', {'for': ['scheme', 'racket', 'ruby']}
 "Plug 'kana/vim-smartinput'
-"Plug 'benmills/vimux'
 "Plug 'tpope/vim-fugitive'
 "Plug 'samsonw/vim-task'
 
@@ -96,7 +125,7 @@ call plug#end()
 " support ligatures
 "set macligatures
 " set guifont=Source\ Code\ Pro:h13
-set guifont=SF\ Mono\ for\ Powerline:h13 | set linespace=1
+" set guifont=SF\ Mono\ for\ Powerline:h13 | set linespace=1
 
 "for linux gvim
 " 设定文件浏览器目录为当前目录
@@ -141,6 +170,10 @@ set updatetime=1000
 "au BufLeave,FocusLost * silent! w
 " 设置开启语法高亮
 syntax on
+" default split position
+set splitright
+set splitbelow
+
 " map leader to space
 let mapleader = "\<Space>"
 " 按<Leader><space> 取消搜索高亮
@@ -184,12 +217,18 @@ nnoremap H ^
 " 将光标移至行尾
 nnoremap L $
 
+" mac options key to alt
+if has("mac")
+  nmap ˙ <M-h>
+  nmap ∆ <M-j>
+  nmap ˚ <M-k>
+  nmap ¬ <M-k>
+endif
 
-" markdown
+" -- markdown -------------
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_fenced_languages = ['bash=sh', 'ruby', 'javascript']
 let g:vim_markdown_conceal = 0
-
 
 " -- NERDTree ------------
 let g:NERDTreeWinSize = 28
@@ -203,18 +242,12 @@ nnoremap <leader>o :NERDTreeFind<CR>
 inoremap <C-S> <C-C>:w<CR>
 inoremap <D-s> <esc>:w<cr>
 noremap :W :w<CR>
-noremap <M-s> :w<CR>
 "imap jj <ESC>
 "my configure,F3 F4 switch the tablabel
 nnoremap ^T :tabnew .<CR>
 "nnoremap <F3> :tabprevious<CR>
-nnoremap <M-j> :tabprevious<CR>
 nnoremap <D-j> :tabprevious<CR>
-nnoremap <M-1> :tabprevious<CR>
-nnoremap <M-k> :tabnext<CR>
 nnoremap <D-k> :tabnext<CR>
-nnoremap <M-2> :tabnext<CR>
-nnoremap <M-t> :tabnew<CR>
 "映射F6执行ruby文件
 nnoremap <F6> :!ruby %<CR>
 "映射F7执行nodeJS文件
@@ -268,7 +301,7 @@ nnoremap <Leader>rd :CtrlPMigrations<CR>
 "let g:limelight_default_coefficient = 0.7
 " Number of preceding/following paragraphs to include (default: 0)
 "let g:limelight_paragraph_span = 1
-nnoremap <Leader>l :Limelight!!<CR>
+" nnoremap <Leader>l :Limelight!!<CR>
 
 "----- airline --------
 set laststatus=2
@@ -301,14 +334,10 @@ nnoremap <C-w>o :MaximizerToggle<CR>
 let g:tagbar_width = 28
 nnoremap <leader>t :TagbarToggle<CR>
 
-"--------- nerdcommenter --------
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-nmap <D-/> <Plug>NERDCommenterToggle<CR>
-nmap <leader>/ <Plug>NERDCommenterToggle<CR>
-imap <D-/> <Esc><Plug>NERDCommenterToggle<CR>
+"--------- commentary --------
+nmap <D-/> gcc<CR>
+vmap <D-/> gc
+imap <D-/> <Esc>gcc<CR>
 
 "------ easy-motion --------
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
@@ -405,40 +434,39 @@ let g:neoformat_enabled_ruby = ['rufo']
 " }}}
 
 " ale =========================================================== {{{
-let g:airline#extensions#ale#enabled = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_save = 1
-"sign: ✗ ∆ ☭ 卐 ❂ ¤ ◆ ◇
-" let g:ale_sign_error = '✗'
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '•'
-" highlight ALEErrorSign guibg=NONE guifg=red
-" highlight ALEWarningSign guibg=NONE guifg=yellow
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_linters = {
-      \   'javascript': ['eslint'],
-      \   'ruby': ['rubocop'],
-      \}
-let g:ale_fixers = {
-      \   'javascript': ['eslint'],
-      \   'ruby': ['rubocop'],
-      \}
-" let g:ale_fix_on_save = 1
+"let g:airline#extensions#ale#enabled = 1
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_save = 1
+""sign: ✗ ∆ ☭ 卐 ❂ ¤ ◆ ◇
+"" let g:ale_sign_error = '✗'
+"let g:ale_sign_error = '✗'
+"let g:ale_sign_warning = '•'
+"" highlight ALEErrorSign guibg=NONE guifg=red
+"" highlight ALEWarningSign guibg=NONE guifg=yellow
+"let g:ale_echo_msg_error_str = 'E'
+"let g:ale_echo_msg_warning_str = 'W'
+"let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+"let g:ale_linters = {
+"      \   'javascript': ['standard'],
+"      \   'ruby': ['rubocop'],
+"      \}
+"let g:ale_fixers = {
+"      \   'javascript': ['standard'],
+"      \   'ruby': ['rubocop'],
+"      \}
+"" let g:ale_fix_on_save = 1
 " }}}
 
 " Neomake =========================================================== {{{
-" let g:neomake_error_sign   = {'text': '✗', 'texthl': 'ErrorMsg'}
-" let g:neomake_warning_sign = {'text': '▵', 'texthl': 'MoreMsg'}
-" let g:neomake_message_sign = {'text': '!', 'texthl': 'MoreMsg'}
-" let g:neomake_info_sign    = {'text': '●', 'texthl': 'MoreMsg'}
-" let g:neomake_verbose = 0
-" let g:neomake_serialize = 1
-" let g:neomake_javascript_enabled_checkers = ['eslint']
-" let g:neomake_ruby_enabled_checkers = ['rubocop']
-" let g:neomake_vim_checkers=['vimlint']
-" autocmd! BufWritePost * Neomake
+let g:neomake_error_sign   = {'text': '✗', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': '▵', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {'text': '!', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign    = {'text': '●', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_javascript_enabled_checkers = ['eslint']
+let g:neomake_ruby_enabled_checkers = ['rubocop']
+let g:neomake_vim_checkers=['vimlint']
+" When writing a buffer (no delay), and reading a buffer (after 1s) and on normal mode changes (after 1000ms).
+call neomake#configure#automake('nrw', 1000)
 " }}}
 
 " incsearch =========================================================== {{{
@@ -459,12 +487,15 @@ nnoremap <leader>f :CtrlSF<space>
 " let g:rainbow_active = 1
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-autocmd FileType ruby,javascript,css,scheme RainbowParentheses
+augroup rainbow_group
+  autocmd!
+  autocmd FileType ruby,javascript,css,scheme,racket,rust RainbowParentheses
+augroup END
 
 " ChooseWin ============================================================= {{{
 "nmap m <Plug>(choosewin)
-nmap m :ChooseWin<CR>
-nmap <leader>m :ChooseWinSwap<CR>
+nnoremap m :ChooseWin<CR>
+nnoremap <leader>m :ChooseWinSwap<CR>
 
 " if you want to use overlay feature
 let g:choosewin_overlay_enable = 1
@@ -473,36 +504,65 @@ let g:choosewin_overlay_clear_multibyte = 1
 let g:choosewin_blink_on_land = 0
 "}}}
 
-" YouCompleteMe ============================================================= {{{
-let g:ycm_complete_in_comments = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
-let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
-"set the preview window on bottom
-set splitbelow
-" for erlang omnicomplete
-let g:erlang_completion_cache = 0
-au FileType erlang let g:ycm_cache_omnifunc = 0
-"}}}
+if complete_engin ==# 'deoplete'
+  " deoplete ============================================================= {{{
+  let g:deoplete#enable_at_startup = 1
+  imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  call deoplete#custom#option({
+        \ 'max_list': 20,
+        \ 'smart_case': v:true,
+        \ })
 
-" UltiSnips ============================================================= {{{
-let g:UltiSnipsExpandTrigger       = "<C-l>"
-let g:UltiSnipsListSnippets        = "<C-s>"
-let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
-"}}}
-"
+	" add English word complete
+	let g:deoplete#look#words='~/.vim/google-10k-words.txt'
+  "}}}
+
+  " neosnippet ============================================================= {{{
+	imap <C-l> <Plug>(neosnippet_expand_or_jump)
+	smap <C-l> <Plug>(neosnippet_expand_or_jump)
+	xmap <C-l> <Plug>(neosnippet_expand_target)
+	"}}}
+
+  let g:LanguageClient_serverCommands = {
+        \ 'ruby': ['solargraph', 'stdio'],
+        \ }
+  nnoremap <leader>gg :call LanguageClient_contextMenu()<CR>
+endif
+
+if complete_engin ==# 'ycm'
+  " YouCompleteMe ============================================================= {{{
+  let g:ycm_complete_in_comments = 1
+  let g:ycm_collect_identifiers_from_comments_and_strings = 1
+  let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<C-j>']
+  let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>', '<C-k>']
+  let g:ycm_autoclose_preview_window_after_insertion = 1
+  let g:ycm_collect_identifiers_from_tags_files = 1
+  let g:ycm_seed_identifiers_with_syntax = 1
+  " for erlang omnicomplete
+  let g:erlang_completion_cache = 0
+  au FileType erlang let g:ycm_cache_omnifunc = 0
+  "}}}
+
+  " UltiSnips ============================================================= {{{
+  let g:UltiSnipsExpandTrigger       = "<C-l>"
+  let g:UltiSnipsListSnippets        = "<C-s>"
+  let g:UltiSnipsJumpForwardTrigger  = "<C-j>"
+  let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+  "}}}
+endif
+
 " Ruby ============================================================= {{{
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_rails = 1
-let g:rubycomplete_load_gemfile = 1
-let g:rubycomplete_use_bundler = 1
-let g:rubycomplete_include_object = 1
-let g:rubycomplete_include_objectspace = 1
+" let g:rubycomplete_buffer_loading = 1
+" let g:rubycomplete_classes_in_global = 1
+" let g:rubycomplete_rails = 1
+" let g:rubycomplete_load_gemfile = 1
+" let g:rubycomplete_use_bundler = 1
+" let g:rubycomplete_include_object = 1
+" let g:rubycomplete_include_objectspace = 1
+" call deoplete#custom#var('omni', 'input_patterns', {
+"       \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
+"       \})
+" call deoplete#custom#source('omni', 'functions', {
+"       \ 'ruby':  'rubycomplete#Complete'
+"       \})
 "}}}
-
