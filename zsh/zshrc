@@ -1,0 +1,90 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Dont share history between sessions
+unsetopt share_history
+
+# load gruvbox color
+# source ~/.vim/bundle/gruvbox/gruvbox_256palette.sh
+
+# Customize to your needs...
+export CLICOLOR=1
+export TERM=xterm-256color
+
+# add go path
+export GOPATH=$HOME/golang
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+
+# add rust path
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# exercism
+export PATH="$HOME/Git/exercism:$PATH"
+
+# homebrew mysql
+export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# fix nvm load performance
+nvm() { . "$NVM_DIR/nvm.sh" ; nvm $@ ; }
+export PATH=$HOME/.nvm/versions/node/v8.11.2/bin:$PATH
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf + fd configuration
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# vim
+alias vi='nvim'
+alias v='mvim'
+
+#alias rm
+alias rm='rm -riv'
+alias mv='mv -i'
+
+# sublime text
+alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
+
+# bundler rails
+alias be='bundle exec'
+alias brake='bundle exec rake'
+alias rails='bundle exec rails'
+alias mina='bundle exec mina'
+
+#ctags
+# alias gtags='ctags -R --fields=+l .'
+alias erltags='ctags -R --fields=+l --languages=erlang .'
+alias rbtags='ctags -R --fields=+l --languages=ruby --exclude=.bundle .'
+alias rubytags='ripper-tags -R --exclude=.bundle'
+
+alias zshreload='source ~/.zshrc'
+
+alias pc="proxychains4"
+alias use_proxy="export https_proxy=http://127.0.0.1:6152;export http_proxy=http://127.0.0.1:6152"
+alias stree='/Applications/SourceTree.app/Contents/Resources/stree'
+
+alias vimr='~/Code/vimr'
+
+# use exa instead ls
+alias ls='exa'
+alias la='exa -a'
+alias ll='exa -abghHl'
+alias tree="exa -T"
+
+# jump
+eval "$(jump shell)"
+

@@ -1,4 +1,4 @@
-set transparency=5
+" set transparency=5
 
 "去除工具栏
 set guioptions-=T
@@ -23,3 +23,6 @@ macmenu Tools.Make key=<nop>
 "let g:gruvbox_contrast_dark='hard'
 "enable mouse in macvim
 set mouse=a
+
+" Disable tabline
+let g:airline#extensions#tabline#enabled = 0
