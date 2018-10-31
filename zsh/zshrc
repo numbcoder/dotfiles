@@ -10,6 +10,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Customize to your needs...
 # Dont share history between sessions
 unsetopt share_history
 
@@ -27,9 +28,6 @@ export PATH=$PATH:/usr/local/opt/go/libexec/bin
 
 # add rust path
 export PATH="$HOME/.cargo/bin:$PATH"
-
-# exercism
-export PATH="$HOME/Git/exercism:$PATH"
 
 # homebrew mysql
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
