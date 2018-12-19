@@ -45,10 +45,18 @@ export PATH=$HOME/.nvm/versions/node/v8.11.2/bin:$PATH
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+# fzf + fasd
+z() {
+  local dir
+  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m --height=40% --layout=reverse)" && cd "${dir}" || return 1
+}
+# jump to dir
+alias j='fasd_cd -d -i'
+# vim edit file
+alias v='fasd -f -i -e vim'
 
 # vim
 alias vi='nvim'
-alias v='mvim'
 
 #alias rm
 alias rm='rm -riv'
@@ -82,7 +90,4 @@ alias ls='exa'
 alias la='exa -a'
 alias ll='exa -abghHl'
 alias tree="exa -T"
-
-# jump
-eval "$(jump shell)"
 

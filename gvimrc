@@ -12,8 +12,9 @@ set guioptions-=r
 " set guioptions+=k
 
 " support ligatures
-"set macligatures
-set guifont=SF\ Mono\ for\ Powerline:h13 | set linespace=1
+set macligatures
+set guifont=SF\ Mono:h13 | set linespace=2
+" set guifont=Fira\ Code:h14 | set linespace=2
 
 " Disable print shortcut for 'goto anything...'
 macmenu File.Print key=<nop>

@@ -28,6 +28,7 @@ if complete_engin ==# 'ncm2'
   Plug 'ncm2/ncm2-bufword'
   Plug 'ncm2/ncm2-path'
   Plug 'ncm2/ncm2-ultisnips'
+  Plug 'fgrsnau/ncm2-otherbuf'
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'filipekiss/ncm2-look.vim'
@@ -44,19 +45,18 @@ if complete_engin ==# 'deoplete'
   endif
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
-	Plug 'ujihisa/neco-look'
+	" Plug 'ujihisa/neco-look'
   Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
   Plug 'zchee/deoplete-go', {'do': 'make'}
 endif
 
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
-" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 "Plug 'tomasr/molokai'
-Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'iurifq/ctrlp-rails.vim', {'for': 'ruby'}
+" Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'FelikZ/ctrlp-py-matcher'
+" Plug 'iurifq/ctrlp-rails.vim', {'for': 'ruby'}
 
 "Plug 'fisadev/vim-ctrlp-cmdpalette'
 "Plug 'tacahiroy/ctrlp-funky'
@@ -73,7 +73,6 @@ Plug 'terryma/vim-expand-region'
 Plug 'terryma/vim-multiple-cursors'
 " Plug 'mg979/vim-visual-multi'
 " Plug 'altercation/vim-colors-solarized'
-" Plug 'morhetz/gruvbox'
 " Plug 'NLKNguyen/papercolor-theme'
 Plug 'rakr/vim-one'
 " Plug 'KeitaNakamura/neodark.vim'
@@ -95,6 +94,7 @@ Plug 't9md/vim-choosewin', {'on': 'ChooseWin'}
 "Plug 'junegunn/limelight.vim', {'autoload': {'commands': ['Limelight','Limelight!!']}}
 Plug 'szw/vim-maximizer', {'on': 'MaximizerToggle'}
 Plug 'dyng/ctrlsf.vim', {'on': 'CtrlSF'}
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 "Plug 'isRuslan/vim-es6', {'for': 'javascript'}
 "Plug 'othree/yajs.vim', {'for': 'javascript'}
@@ -240,6 +240,7 @@ let g:vim_markdown_conceal = 0
 let g:NERDTreeWinSize = 28
 let NERDTreeIgnore=['\.beam$']
 nnoremap <D-O> :NERDTreeToggle<CR>
+nnoremap <leader>p :NERDTreeToggle<CR>
 nnoremap <leader>o :NERDTreeFind<CR>
 "let g:nerdtree_tabs_open_on_gui_startup = 0
 " -- NERDTree end ------------
@@ -259,19 +260,19 @@ nnoremap <D-}> :tabnext<CR>
 " ------------- fzf end -------------
 
 "------------- LeaderF  -------------
-" let g:Lf_ShortcutF = '<D-p>'
-" let g:Lf_ReverseOrder=1
-" let g:Lf_StlColorscheme = 'one'
-" let g:Lf_StlSeparator = { 'left': '', 'right': '' }
-" let g:Lf_CommandMap = {'<C-V>': ['<C-S>'], '<C-]>': ['<C-V>']}
+let g:Lf_ShortcutF = '<C-p>'
+nnoremap <D-p> :LeaderfFile<CR>
+let g:Lf_ReverseOrder = 1
+let g:Lf_WindowHeight = 0.3
+let g:Lf_StlColorscheme = 'one'
+let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+let g:Lf_CommandMap = {'<C-X>': ['<C-S>'], '<C-]>': ['<C-V>'], '<C-K>': ['<C-K>', '<Up>'], '<C-J>': ['<C-J>', '<Down>']}
+let g:Lf_ExternalCommand = 'fd --type f --color=never "" %s'
 "------------- LeaderF end  -------------
 
 "------------- Ctrlp -------------
-"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.log,*.beam  " MacOSX/Linux
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif,*.beam  " MacOSX/Linux
 set wildignore+=*/node_modules/*,*/vendor/*  " node module
-let g:ctrlp_custom_ignore = { 'dir':  '\v[\/]\.(git|hg|svn)$' }
-let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height = 15
 let g:ctrlp_extensions = ['line', 'buffertag']
 let g:ctrlp_open_new_file = 't'
@@ -284,18 +285,18 @@ endif
 if executable('rg')
   " let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
   " Use rg over Grep
-  set grepprg=rg\ --vimgrep\ --no-heading
-  set grepformat=%f:%l:%c:%m,%f:%l:%m
+  set grepprg=rg\ --vimgrep\ --no-heading\ --color=never
+  " set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 " Open ctrlp with cmd+p
-nnoremap <D-p> :CtrlP<CR>
+" nnoremap <D-p> :CtrlP<CR>
 " clear cache and open ctrlp
-nnoremap <silent> <leader>p :ClearCtrlPCache<CR>\|:CtrlP<CR>
+" nnoremap <silent> <leader>p :ClearCtrlPCache<CR>\|:CtrlP<CR>
 " only search in current buffer
-nnoremap <D-b> :CtrlPBuffer<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <D-e> :CtrlPLine %<CR>
-nnoremap <D-r> :CtrlPBufTag<Cr>
+" nnoremap <D-b> :CtrlPBuffer<CR>
+" nnoremap <Leader>b :CtrlPBuffer<CR>
+" nnoremap <D-e> :CtrlPLine %<CR>
+" nnoremap <D-r> :CtrlPBufTag<Cr>
 let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 " let g:fruzzy#usenative = 1
 " let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
@@ -304,10 +305,10 @@ let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 "nnoremap @ :execute 'CtrlPFunky ' . expand('<cword>')<Cr>"
 "let g:ctrlp_funky_syntax_highlight = 1
 "---- ctrlp-rails --------
-nnoremap <Leader>rm :CtrlPModels<CR>
-nnoremap <Leader>rc :CtrlPControllers<CR>
-nnoremap <Leader>rv ::CtrlPViews<CR>
-nnoremap <Leader>rd :CtrlPMigrations<CR>
+" nnoremap <Leader>rm :CtrlPModels<CR>
+" nnoremap <Leader>rc :CtrlPControllers<CR>
+" nnoremap <Leader>rv ::CtrlPViews<CR>
+" nnoremap <Leader>rd :CtrlPMigrations<CR>
 
 "------------- Limelight ----------
 " Default: 0.5
@@ -323,7 +324,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#tab_nr_type = 1
 nmap <leader>[ <Plug>AirlineSelectPrevTab
 nmap <leader>] <Plug>AirlineSelectNextTab
-" let g:airline_powerline_fonts = 0
+" let g:airline_powerline_fonts = 1
 " disable whitespace check
 let g:airline#extensions#whitespace#enabled = 0
 
@@ -413,6 +414,10 @@ set background=dark
 "set cursorline
 "set cursorcolumn
 
+"--------- rust -------------
+let g:rustfmt_autosave = 1
+let g:rust_clip_command = 'pbcopy'
+
 "--------- coffee -------------
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
 
@@ -449,7 +454,13 @@ let g:vim_json_syntax_conceal = 2
 
 " neoformat =========================================================== {{{
 nnoremap <leader>ff :Neoformat <cr>
-let g:neoformat_enabled_ruby = ['rufo']
+let g:neoformat_ruby_rubocopx = {
+      \ 'exe': 'rubocop',
+      \ 'args': ['--safe-auto-correct', '--stdin', '"%:p"', '2>/dev/null', '|', 'sed "1,/^====================$/d"'],
+      \ 'stdin': 1,
+      \ 'stderr': 1
+      \ }
+let g:neoformat_enabled_ruby = ['rubocopx']
 let g:neoformat_enabled_javascript = ['standard']
 " auto save
 " augroup fmt
@@ -489,6 +500,7 @@ let g:neomake_message_sign = {'text': '!', 'texthl': 'NeomakeMessageSign'}
 let g:neomake_info_sign    = {'text': '●', 'texthl': 'NeomakeInfoSign'}
 let g:neomake_javascript_enabled_makers = ['standard']
 let g:neomake_ruby_enabled_makers = ['rubocop']
+let g:neomake_rust_enabled_makers = ['rustc', 'clippy']
 let g:neomake_python_enabled_makers = ['pep8']
 let g:neomake_vim_makers=['vimlint']
 " When writing a buffer (no delay), and reading a buffer (after 1s) and on normal mode changes (after 1000ms).
@@ -510,12 +522,11 @@ let g:ctrlsf_auto_close = 0
 nnoremap <leader>fs :CtrlSF<space>
 
 "------------ rainbow -------------
-" let g:rainbow_active = 1
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 augroup rainbow_group
   autocmd!
-  autocmd FileType ruby,javascript,css,scheme,racket,rust RainbowParentheses
+  autocmd FileType javascript,css,scheme,racket,rust RainbowParentheses
 augroup END
 
 " ChooseWin ============================================================= {{{
@@ -535,6 +546,7 @@ if complete_engin ==# 'deoplete'
   let g:deoplete#enable_at_startup = 1
   imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   call deoplete#custom#option({
+        \ 'auto_complete_delay': 10,
         \ 'max_list': 20,
         \ 'num_processes': 6,
         \ 'smart_case': v:true,
@@ -581,8 +593,10 @@ if complete_engin ==# 'ncm2'
   inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+  let g:ncm2#matcher = 'prefix'
   " ncm2-look
   let g:ncm2_look_enabled = 1
+  call ncm2#override_source('buflook', {'priority': 1})
   let g:LanguageClient_serverCommands = {
         \ 'ruby': ['solargraph', 'stdio'],
         \ 'javascript': ['javascript-typescript-stdio'],
@@ -595,7 +609,7 @@ if complete_engin ==# 'coc'
   set hidden
 
   " Better display for messages
-  set cmdheight=2
+  " set cmdheight=2
 
   " Smaller updatetime for CursorHold & CursorHoldI
   set updatetime=300
@@ -604,19 +618,20 @@ if complete_engin ==# 'coc'
   set signcolumn=yes
 
   " Use tab for trigger completion with characters ahead and navigate.
+  " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
   inoremap <silent><expr> <TAB>
         \ pumvisible() ? "\<C-n>" :
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-  " Use <C-x><C-o> to complete 'word', 'emoji' and 'include' sources
-  imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
-
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
+
+    " Use <C-x><C-o> to complete 'word', 'emoji' and 'include' sources
+  imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
 endif
 
 " UltiSnips ============================================================= {{{
