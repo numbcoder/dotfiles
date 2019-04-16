@@ -13,8 +13,9 @@ call plug#begin('~/.vim/bundle')
 let complete_engin = 'coc'
 
 if complete_engin ==# 'coc'
-  Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
-  Plug 'SirVer/ultisnips'
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+  Plug 'neoclide/coc-imselect'
+  " Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 endif
 
@@ -74,9 +75,9 @@ Plug 'terryma/vim-multiple-cursors'
 " Plug 'mg979/vim-visual-multi'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'NLKNguyen/papercolor-theme'
-Plug 'rakr/vim-one'
+" Plug 'rakr/vim-one'
 " Plug 'KeitaNakamura/neodark.vim'
-" Plug 'joshdick/onedark.vim'
+Plug 'joshdick/onedark.vim'
 " Plug 'dracula/vim'
 " Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
@@ -108,7 +109,7 @@ Plug 'tpope/vim-rails', {'for': 'ruby' }
 " Plug 'ruby-formatter/rufo-vim', {'for': 'ruby'}
 Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
-Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries'}
+" Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries'}
 Plug 'jimenezrick/vimerl', {'for': 'erlang'}
 "Plug 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
 Plug 'vim-erlang/vim-erlang-tags', {'for': 'erlang'}
@@ -116,9 +117,9 @@ Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
 Plug 'slashmili/alchemist.vim', {'for': 'elixir'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'kovisoft/slimv', {'for': ['scheme', 'racket', 'lisp']}
+" Plug 'kovisoft/slimv', {'for': ['scheme', 'racket', 'lisp']}
 " Plug 'wlangstroth/vim-racket', {'for': ['racket', 'scheme']}
-Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release', 'for': ['scheme', 'racket', 'lisp']}
+" Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release', 'for': ['scheme', 'racket', 'lisp']}
 " Plug 'bhurlow/vim-parinfer', {'for': ['scheme', 'racket', 'lisp']}
 " Plug 'benmills/vimux', {'for': ['scheme', 'racket', 'ruby']}
 "Plug 'kana/vim-smartinput'
@@ -238,7 +239,6 @@ let g:vim_markdown_conceal = 0
 
 " -- NERDTree ------------
 let g:NERDTreeWinSize = 28
-let NERDTreeIgnore=['\.beam$']
 nnoremap <D-O> :NERDTreeToggle<CR>
 nnoremap <leader>p :NERDTreeToggle<CR>
 nnoremap <leader>o :NERDTreeFind<CR>
@@ -252,10 +252,12 @@ noremap :W :w<CR>
 "imap jj <ESC>
 nnoremap ^T :tabnew .<CR>
 nnoremap <D-j> :tabprevious<CR>
-nnoremap <D-{> :tabprevious<CR>
 nnoremap <D-k> :tabnext<CR>
-nnoremap <D-}> :tabnext<CR>
+nnoremap <D-S-{> :tabprevious<CR>
+nnoremap <D-S-}> :tabnext<CR>
 
+" ------------- indentLine -------------
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 " ------------- fzf -------------
 " ------------- fzf end -------------
 
@@ -322,6 +324,7 @@ set laststatus=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#show_buffers = 0
 nmap <leader>[ <Plug>AirlineSelectPrevTab
 nmap <leader>] <Plug>AirlineSelectNextTab
 " let g:airline_powerline_fonts = 1
@@ -403,7 +406,8 @@ syntax enable
 " let g:one_allow_italics = 1
 
 " colorscheme dracula
-colorscheme one
+" colorscheme one
+colorscheme onedark
 " colorscheme neodark
 set background=dark
 
@@ -503,6 +507,7 @@ let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_rust_enabled_makers = ['rustc', 'clippy']
 let g:neomake_python_enabled_makers = ['pep8']
 let g:neomake_vim_makers=['vimlint']
+let g:neomake_virtualtext_current_error = 0
 " When writing a buffer (no delay), and reading a buffer (after 1s) and on normal mode changes (after 1000ms).
 call neomake#configure#automake('nrw', 1000)
 " }}}
@@ -630,8 +635,43 @@ if complete_engin ==# 'coc'
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 
-    " Use <C-x><C-o> to complete 'word', 'emoji' and 'include' sources
+  " Remap keys for gotos
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+
+  " Use K for show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  function! s:show_documentation()
+    if &filetype == 'vim'
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  " Highlight symbol under cursor on CursorHold
+  " autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " Use <C-x><C-o> to complete 'word', 'emoji' and 'include' sources
   imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
+
+  " Use <C-l> for trigger snippet expand.
+  imap <C-l> <Plug>(coc-snippets-expand)
+
+  " Use <C-j> for select text for visual placeholder of snippet.
+  vmap <C-j> <Plug>(coc-snippets-select)
+
+  " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+  let g:coc_snippet_next = '<c-j>'
+
+  " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+  let g:coc_snippet_prev = '<c-k>'
+
+  " Use <C-j> for both expand and jump (make expand higher priority.)
+  imap <C-j> <Plug>(coc-snippets-expand-jump)
 endif
 
 " UltiSnips ============================================================= {{{
@@ -640,4 +680,3 @@ let g:UltiSnipsListSnippets        = "<C-s>"
 let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 "}}}
-
