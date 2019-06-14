@@ -13,7 +13,8 @@ set guioptions-=r
 
 " support ligatures
 set macligatures
-set guifont=SF\ Mono:h13 | set linespace=2
+" set guifont=SF\ Mono:h13 | set linespace=2
+set guifont=SFMono\ Nerd\ Font:h13 | set linespace=2
 " set guifont=Fira\ Code:h14 | set linespace=2
 
 " Disable print shortcut for 'goto anything...'

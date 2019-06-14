@@ -10,46 +10,11 @@ endif
 call plug#begin('~/.vim/bundle')
 
 " ======================== Plugins ========================
-let complete_engin = 'coc'
 
-if complete_engin ==# 'coc'
-  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-  Plug 'neoclide/coc-imselect'
-  " Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
-endif
+Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+Plug 'honza/vim-snippets'
+Plug 'neoclide/coc-imselect'
 
-if complete_engin ==# 'ncm2'
-  Plug 'ncm2/ncm2'
-  Plug 'roxma/nvim-yarp'
-  if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-  " list of sources: https://github.com/ncm2/ncm2/wiki
-  Plug 'ncm2/ncm2-bufword'
-  Plug 'ncm2/ncm2-path'
-  Plug 'ncm2/ncm2-ultisnips'
-  Plug 'fgrsnau/ncm2-otherbuf'
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
-  Plug 'filipekiss/ncm2-look.vim'
-  Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-end
-
-if complete_engin ==# 'deoplete'
-  if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
-	" Plug 'ujihisa/neco-look'
-  Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-  Plug 'zchee/deoplete-go', {'do': 'make'}
-endif
 
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
@@ -61,10 +26,10 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
 "Plug 'fisadev/vim-ctrlp-cmdpalette'
 "Plug 'tacahiroy/ctrlp-funky'
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
 " Plug 'w0rp/ale'
 Plug 'machakann/vim-sandwich'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rsi'
@@ -81,14 +46,15 @@ Plug 'joshdick/onedark.vim'
 " Plug 'dracula/vim'
 " Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'haya14busa/incsearch.vim'
 
-Plug 'iamcco/dict.vim'
+Plug 'voldikss/vim-translate-me'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 "Plug 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
 Plug 't9md/vim-choosewin', {'on': 'ChooseWin'}
@@ -100,21 +66,19 @@ Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 "Plug 'isRuslan/vim-es6', {'for': 'javascript'}
 "Plug 'othree/yajs.vim', {'for': 'javascript'}
 Plug 'elzr/vim-json', {'for': 'json'}
-" Plug 'marijnh/tern_for_vim', {'autoload':{'filetypes':['javascript']}}
 Plug 'digitaltoad/vim-pug', {'for': ['pug', 'jade']}
 Plug 'cakebaker/scss-syntax.vim', {'for': ['scss','sass']}
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'tpope/vim-rails', {'for': 'ruby' }
-" Plug 'ruby-formatter/rufo-vim', {'for': 'ruby'}
 Plug 'othree/html5.vim', {'for': 'html'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
 " Plug 'fatih/vim-go', {'for': 'go', 'do': ':GoUpdateBinaries'}
-Plug 'jimenezrick/vimerl', {'for': 'erlang'}
-"Plug 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
-Plug 'vim-erlang/vim-erlang-tags', {'for': 'erlang'}
+" Plug 'jimenezrick/vimerl', {'for': 'erlang'}
+" Plug 'edkolev/erlang-motions.vim', {'autoload':{'filetypes':['erlang']}}
+" Plug 'vim-erlang/vim-erlang-tags', {'for': 'erlang'}
 Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
-Plug 'slashmili/alchemist.vim', {'for': 'elixir'}
+" Plug 'slashmili/alchemist.vim', {'for': 'elixir'}
 Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kovisoft/slimv', {'for': ['scheme', 'racket', 'lisp']}
@@ -154,6 +118,7 @@ set incsearch
 "set nowrap
 " 缺省不产生备份文件
 set nobackup
+set nowritebackup
 " 不要生成swap文件，当buffer被丢弃的时候隐藏它
 setlocal noswapfile
 set noswapfile
@@ -168,8 +133,8 @@ set tabstop=2
 set expandtab
 set cindent shiftwidth=2
 set autoindent shiftwidth=2
-"disable mouse in terminal
-set mouse-=a
+"enable mouse
+set mouse=a
 " set popup list count
 set pumheight=12
 set updatetime=1000
@@ -327,26 +292,11 @@ let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#show_buffers = 0
 nmap <leader>[ <Plug>AirlineSelectPrevTab
 nmap <leader>] <Plug>AirlineSelectNextTab
-" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 " disable whitespace check
 let g:airline#extensions#whitespace#enabled = 0
-
-"------------ if powerline font not soupport ----------
-" if !exists('g:airline_symbols')
-"   let g:airline_symbols = {}
-" endif
-
-" " unicode symbols
-" let g:airline_left_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_symbols.crypt = '🔒'
-" let g:airline_symbols.linenr = '¶'
-" let g:airline_symbols.maxlinenr = '☰'
-" let g:airline_symbols.branch = '⎇'
-" let g:airline_symbols.paste = 'ρ'
-" let g:airline_symbols.spell = 'Ꞩ'
-" let g:airline_symbols.notexists = '∄'
-" let g:airline_symbols.whitespace = 'Ξ'
+" let g:airline_left_sep = ''
+" let g:airline_right_sep = ''
 
 "----------- vim-maximizer --------
 let g:maximizer_default_mapping_key = '<c-w>o'
@@ -387,18 +337,11 @@ nmap <Leader>k <Plug>(easymotion-k)
 let g:gitgutter_map_keys = 0
 
 filetype plugin on
-" true color support
-if has("termguicolors")
-  " fix ture color for tmux
-  set t_8b=[48;2;%lu;%lu;%lum
-  set t_8f=[38;2;%lu;%lu;%lum
-  set termguicolors
-else
-  set t_Co=256
-endif
-if has('nvim')
-  tnoremap <Esc> <C-\><C-n>
-endif
+
+" fix ture color for tmux
+set t_8b=[48;2;%lu;%lu;%lum
+set t_8f=[38;2;%lu;%lu;%lum
+set termguicolors
 
 syntax enable
 
@@ -421,9 +364,6 @@ set background=dark
 "--------- rust -------------
 let g:rustfmt_autosave = 1
 let g:rust_clip_command = 'pbcopy'
-
-"--------- coffee -------------
-au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 expandtab
 
 "------ golang is special ----------
 au FileType go setlocal noexpandtab softtabstop=4 tabstop=4 shiftwidth=4
@@ -503,13 +443,13 @@ let g:neomake_warning_sign = {'text': '▵', 'texthl': 'NeomakeWarningSign'}
 let g:neomake_message_sign = {'text': '!', 'texthl': 'NeomakeMessageSign'}
 let g:neomake_info_sign    = {'text': '●', 'texthl': 'NeomakeInfoSign'}
 let g:neomake_javascript_enabled_makers = ['standard']
-let g:neomake_ruby_enabled_makers = ['rubocop']
+let g:neomake_ruby_enabled_makers = []
 let g:neomake_rust_enabled_makers = ['rustc', 'clippy']
 let g:neomake_python_enabled_makers = ['pep8']
 let g:neomake_vim_makers=['vimlint']
 let g:neomake_virtualtext_current_error = 0
 " When writing a buffer (no delay), and reading a buffer (after 1s) and on normal mode changes (after 1000ms).
-call neomake#configure#automake('nrw', 1000)
+" call neomake#configure#automake('nrw', 1000)
 " }}}
 
 " incsearch =========================================================== {{{
@@ -546,137 +486,82 @@ let g:choosewin_overlay_clear_multibyte = 1
 let g:choosewin_blink_on_land = 0
 "}}}
 
-if complete_engin ==# 'deoplete'
-  " deoplete ============================================================= {{{
-  let g:deoplete#enable_at_startup = 1
-  imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-  call deoplete#custom#option({
-        \ 'auto_complete_delay': 10,
-        \ 'max_list': 20,
-        \ 'num_processes': 6,
-        \ 'smart_case': v:true,
-        \ })
 
-	" add English word complete
-	let g:deoplete#look#words='~/.vim/google-10k-words.txt'
-  "}}}
 
-  " neosnippet ============================================================= {{{
-	imap <C-l> <Plug>(neosnippet_expand_or_jump)
-	smap <C-l> <Plug>(neosnippet_expand_or_jump)
-	xmap <C-l> <Plug>(neosnippet_expand_target)
-	"}}}
+" coc ============================================================= {{{
+" if hidden not set, TextEdit might fail.
+set hidden
 
-  let g:LanguageClient_serverCommands = {
-        \ 'ruby': ['solargraph', 'stdio'],
-        \ 'javascript': ['typescript-language-server', '--stdio'],
-        \ }
-  nnoremap <leader>ll :call LanguageClient_contextMenu()<CR>
-  nnoremap <leader>ld :call LanguageClient_textDocument_definition()<CR>
-endif
+" Better display for messages
+" set cmdheight=2
 
-if complete_engin ==# 'ncm2'
-  " enable ncm2 for all buffers
-  autocmd BufEnter * call ncm2#enable_for_buffer()
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
 
-  " IMPORTANTE: :help Ncm2PopupOpen for more information
-  set completeopt=noinsert,menuone,noselect
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
 
-  " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-  " found' messages
-  set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
 
-  " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-  inoremap <c-c> <ESC>
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-  " When the <Enter> key is pressed while the popup menu is visible, it only
-  " hides the menu. Use this mapping to close the menu and also start a new
-  " line.
-  " inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-  " Use <TAB> to select the popup menu:
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-  let g:ncm2#matcher = 'prefix'
-  " ncm2-look
-  let g:ncm2_look_enabled = 1
-  call ncm2#override_source('buflook', {'priority': 1})
-  let g:LanguageClient_serverCommands = {
-        \ 'ruby': ['solargraph', 'stdio'],
-        \ 'javascript': ['javascript-typescript-stdio'],
-        \ }
-  nnoremap <leader>ll :call LanguageClient_contextMenu()<CR>
-end
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-if complete_engin ==# 'coc'
-  " if hidden not set, TextEdit might fail.
-  set hidden
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
-  " Better display for messages
-  " set cmdheight=2
+" Highlight symbol under cursor on CursorHold
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
-  " Smaller updatetime for CursorHold & CursorHoldI
-  set updatetime=300
+" Use <C-x><C-o> to complete 'word', 'emoji' and 'include' sources
+imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
 
-  " always show signcolumns
-  set signcolumn=yes
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
 
-  " Use tab for trigger completion with characters ahead and navigate.
-  " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-  inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
 
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
 
-  " Remap keys for gotos
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
 
-  " Use K for show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-  function! s:show_documentation()
-    if &filetype == 'vim'
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-
-  " Highlight symbol under cursor on CursorHold
-  " autocmd CursorHold * silent call CocActionAsync('highlight')
-
-  " Use <C-x><C-o> to complete 'word', 'emoji' and 'include' sources
-  imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
-
-  " Use <C-l> for trigger snippet expand.
-  imap <C-l> <Plug>(coc-snippets-expand)
-
-  " Use <C-j> for select text for visual placeholder of snippet.
-  vmap <C-j> <Plug>(coc-snippets-select)
-
-  " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-  let g:coc_snippet_next = '<c-j>'
-
-  " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-  let g:coc_snippet_prev = '<c-k>'
-
-  " Use <C-j> for both expand and jump (make expand higher priority.)
-  imap <C-j> <Plug>(coc-snippets-expand-jump)
-endif
-
-" UltiSnips ============================================================= {{{
-let g:UltiSnipsExpandTrigger       = "<C-l>"
-let g:UltiSnipsListSnippets        = "<C-s>"
-let g:UltiSnipsJumpForwardTrigger  = "<C-l>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+let g:coc_global_extensions = [
+      \ 'coc-word',
+      \ 'coc-snippets',
+      \ 'coc-rls',
+      \ 'coc-json',
+      \ 'coc-solargraph',
+      \ 'coc-tsserver',
+      \ 'coc-pairs',
+      \ 'coc-lists',
+      \ ]
 "}}}
