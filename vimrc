@@ -11,28 +11,21 @@ call plug#begin('~/.vim/bundle')
 
 " ======================== Plugins ========================
 
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
-Plug 'neoclide/coc-imselect'
 
-
-" Plug '/usr/local/opt/fzf'
-" Plug 'junegunn/fzf.vim'
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 "Plug 'tomasr/molokai'
-" Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'FelikZ/ctrlp-py-matcher'
-" Plug 'iurifq/ctrlp-rails.vim', {'for': 'ruby'}
 
-"Plug 'fisadev/vim-ctrlp-cmdpalette'
-"Plug 'tacahiroy/ctrlp-funky'
-" Plug 'neomake/neomake'
 " Plug 'w0rp/ale'
+Plug 'pechorin/any-jump.vim', {'on': ['AnyJump']}
 Plug 'machakann/vim-sandwich'
 " Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rsi'
+Plug 'jreybert/vimagit', {'on': ['Magit', 'MagitOnly']}
 Plug 'sbdchd/neoformat'
 "Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-expand-region'
@@ -44,17 +37,17 @@ Plug 'terryma/vim-multiple-cursors'
 " Plug 'KeitaNakamura/neodark.vim'
 Plug 'joshdick/onedark.vim'
 " Plug 'dracula/vim'
-" Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
+" Plug 'itchyny/lightline.vim'
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'Lokaltog/vim-easymotion'
+" Plug 'Lokaltog/vim-easymotion'
 Plug 'Yggdroot/indentLine'
 Plug 'haya14busa/incsearch.vim'
 
-Plug 'voldikss/vim-translate-me'
+Plug 'voldikss/vim-floaterm'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 "Plug 'scrooloose/nerdtree', {'depends': 'jistr/vim-nerdtree-tabs', 'autoload': {'commands':['NERDTreeTabsToggle','NERDTreeToggle','NERDTreeFind']} }
 Plug 't9md/vim-choosewin', {'on': 'ChooseWin'}
@@ -145,6 +138,9 @@ syntax on
 " default split position
 set splitright
 set splitbelow
+set laststatus=2
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif,*.beam  " MacOSX/Linux
+set wildignore+=*/node_modules/*,*/vendor/*  " node module
 
 " map leader to space
 let mapleader = "\<Space>"
@@ -157,6 +153,8 @@ noremap <C-g> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 " map ; to :
 nnoremap ; :
+" map Ctrl c to copy for terminal
+vnoremap <C-c> "+y
 
 " Easy window navigation
 nnoremap <C-h> <C-w>h
@@ -164,18 +162,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <D-i> <C-w><C-]>
-
-" move to tpope/vim-rsi
-" moving aroung in command mode
-" cnoremap <C-A> <Home>
-" cnoremap <C-F> <Right>
-" cnoremap <C-B> <Left>
-
-"Emacs 式快捷键
-" inoremap <C-A> <Home>
-" inoremap <C-E> <End>
-" inoremap <C-F> <Right>
-" inoremap <C-B> <Left>
 
 " Reselect visual block after indent/outdent
 vnoremap < <gv
@@ -197,19 +183,6 @@ if has("mac")
   nmap ¬ <M-k>
 endif
 
-" -- markdown -------------
-let g:vim_markdown_folding_disabled=1
-let g:vim_markdown_fenced_languages = ['bash=sh', 'ruby', 'javascript']
-let g:vim_markdown_conceal = 0
-
-" -- NERDTree ------------
-let g:NERDTreeWinSize = 28
-nnoremap <D-O> :NERDTreeToggle<CR>
-nnoremap <leader>p :NERDTreeToggle<CR>
-nnoremap <leader>o :NERDTreeFind<CR>
-"let g:nerdtree_tabs_open_on_gui_startup = 0
-" -- NERDTree end ------------
-
 " 把 CTRL-S 映射为 保存
 inoremap <C-S> <C-C>:w<CR>
 inoremap <D-s> <esc>:w<cr>
@@ -221,61 +194,59 @@ nnoremap <D-k> :tabnext<CR>
 nnoremap <D-S-{> :tabprevious<CR>
 nnoremap <D-S-}> :tabnext<CR>
 
+" --- markdown -------------
+let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_fenced_languages = ['bash=sh', 'ruby', 'javascript']
+let g:vim_markdown_conceal = 0
+
+" --- NERDTree ------------
+let g:NERDTreeWinSize = 28
+nnoremap <D-O> :NERDTreeToggle<CR>
+nnoremap <leader>p :NERDTreeToggle<CR>
+nnoremap <leader>o :NERDTreeFind<CR>
+"let g:nerdtree_tabs_open_on_gui_startup = 0
+" --- NERDTree end ------------
+
 " ------------- indentLine -------------
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-" ------------- fzf -------------
-" ------------- fzf end -------------
+
+" ------------- vim-clap -------------
+" nnoremap <D-p> :Clap files<CR>
+" nnoremap <C-p> :Clap files<CR>
+" nnoremap <leader>f :Clap files<CR>
+" nnoremap <leader>b :Clap buffers<CR>
+" nnoremap <leader>g :Clap grep<CR>
+" nnoremap <leader>l :Clap blines<CR>
+" let g:clap_layout = { 'relative': 'editor' }
+" let g:clap_theme = 'atom_dark'
+" let g:clap_search_box_border_style = 'nil'
+" let g:clap_insert_mode_only = v:true
+" `:Clap dotfiles` to open some dotfiles quickly.
+" let g:clap_provider_dotfiles = {
+"       \ 'source': ['~/.vimrc', '~/.zshrc', '~/.config/', '~/.tmux.conf'],
+"       \ 'sink': 'e',
+"       \ }
+" ------------- vim-clap end -------------
 
 "------------- LeaderF  -------------
 let g:Lf_ShortcutF = '<C-p>'
+nnoremap <leader>f :LeaderfFile<CR>
+nnoremap <leader>g :Leaderf rg<CR>
+nnoremap <leader>l :LeaderfLine<CR>
 nnoremap <D-p> :LeaderfFile<CR>
-let g:Lf_ReverseOrder = 1
-let g:Lf_WindowHeight = 0.3
-let g:Lf_StlColorscheme = 'one'
+nnoremap <D-S-p> :LeaderfCommand<CR>
+let g:Lf_WindowPosition = 'popup'
+" let g:Lf_PopupColorscheme = 'one'
+let g:Lf_PopupShowStatusline = 0
+let g:Lf_PreviewInPopup = 1
+" let g:Lf_ReverseOrder = 1
+" let g:Lf_WindowHeight = 0.3
+" let g:Lf_StlColorscheme = 'one'
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
-let g:Lf_CommandMap = {'<C-X>': ['<C-S>'], '<C-]>': ['<C-V>'], '<C-K>': ['<C-K>', '<Up>'], '<C-J>': ['<C-J>', '<Down>']}
+let g:Lf_CommandMap = {'<C-]>': ['<C-V>'], '<C-K>': ['<C-K>', '<Up>'], '<C-J>': ['<C-J>', '<Down>']}
 let g:Lf_ExternalCommand = 'fd --type f --color=never "" %s'
 "------------- LeaderF end  -------------
 
-"------------- Ctrlp -------------
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif,*.beam  " MacOSX/Linux
-set wildignore+=*/node_modules/*,*/vendor/*  " node module
-let g:ctrlp_max_height = 15
-let g:ctrlp_extensions = ['line', 'buffertag']
-let g:ctrlp_open_new_file = 't'
-let g:ctrlp_clear_cache_on_exit=1
-" enable cache
-let g:ctrlp_use_caching = 1
-if executable('fd')
-  let g:ctrlp_user_command = 'fd --type f --color=never "" %s'
-endif
-if executable('rg')
-  " let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-  " Use rg over Grep
-  set grepprg=rg\ --vimgrep\ --no-heading\ --color=never
-  " set grepformat=%f:%l:%c:%m,%f:%l:%m
-endif
-" Open ctrlp with cmd+p
-" nnoremap <D-p> :CtrlP<CR>
-" clear cache and open ctrlp
-" nnoremap <silent> <leader>p :ClearCtrlPCache<CR>\|:CtrlP<CR>
-" only search in current buffer
-" nnoremap <D-b> :CtrlPBuffer<CR>
-" nnoremap <Leader>b :CtrlPBuffer<CR>
-" nnoremap <D-e> :CtrlPLine %<CR>
-" nnoremap <D-r> :CtrlPBufTag<Cr>
-let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
-" let g:fruzzy#usenative = 1
-" let g:ctrlp_match_func = {'match': 'fruzzy#ctrlp#matcher'}
-" let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
-" narrow the list down with a word under cursor
-"nnoremap @ :execute 'CtrlPFunky ' . expand('<cword>')<Cr>"
-"let g:ctrlp_funky_syntax_highlight = 1
-"---- ctrlp-rails --------
-" nnoremap <Leader>rm :CtrlPModels<CR>
-" nnoremap <Leader>rc :CtrlPControllers<CR>
-" nnoremap <Leader>rv ::CtrlPViews<CR>
-" nnoremap <Leader>rd :CtrlPMigrations<CR>
 
 "------------- Limelight ----------
 " Default: 0.5
@@ -284,8 +255,46 @@ let g:ctrlp_match_func = {'match': 'pymatcher#PyMatch'}
 "let g:limelight_paragraph_span = 1
 " nnoremap <Leader>l :Limelight!!<CR>
 
+"--- lightline --------
+" let g:lightline = {
+"       \ 'colorscheme': 'onedark',
+"       \ 'active': {
+"       \   'left': [
+"       \     [ 'mode', 'paste' ],
+"       \     [ 'git', 'cocstatus', 'readonly' ],
+"       \     [ 'relativepath' ]
+"       \   ],
+"       \   'right':[
+"       \     [ 'lineinfo' ],
+"       \     [ 'percent' ],
+"       \     ['blame', 'filetype', 'fileencoding' ],
+"       \   ],
+"       \ },
+"       \ 'component_function': {
+"       \   'cocstatus': 'coc#status',
+"       \   'git': 'CocGitStatus',
+"       \   'filetype': 'IconFileType',
+"       \   'fileencoding': 'IconFileEncoding',
+"       \   'blame': 'CocGitBlame',
+"       \ },
+"       \ 'separator': { 'left': '', 'right': '' },
+"       \ 'subseparator': { 'left': '', 'right': '' },
+"       \ }
+" autocmd User CocStatusChange,CocDiagnosticChange CocGitStatusChange call lightline#update()
+" function! CocGitStatus() abort
+"   return winwidth(0) > 70 ? get(g:, 'coc_git_status', '') : ''
+" endfunction
+" function! CocGitBlame() abort
+"   return winwidth(0) > 70 ? get(b:, 'coc_git_blame', '') : ''
+" endfunction
+" function! IconFileType()
+"   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+" endfunction
+" function! IconFileEncoding()
+"   return winwidth(0) > 70 ? (&fileencoding . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+" endfunction
+
 "----- airline --------
-set laststatus=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#tab_nr_type = 1
@@ -302,36 +311,29 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:maximizer_default_mapping_key = '<c-w>o'
 nnoremap <C-w>o :MaximizerToggle<CR>
 
-"----------- tagbar ---------------
-let g:tagbar_width = 28
-nnoremap <leader>t :TagbarToggle<CR>
-
 "--------- commentary --------
 nmap <D-/> gcc<CR>
 vmap <D-/> gc
 imap <D-/> <Esc>gcc<CR>
 
-"------ easy-motion --------
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-"map <Leader> <Plug>(easymotion-prefix)
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-" nmap s <Plug>(easymotion-s)
-" or
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap s <Plug>(easymotion-s2)
-nmap <Leader>w <Plug>(easymotion-w)
-nmap <Leader>s <Plug>(easymotion-sn)
-" Turn on case sensitive feature
-let g:EasyMotion_smartcase = 1
-" JK motions: Line motions
-nmap <Leader>j <Plug>(easymotion-j)
-nmap <Leader><leader> <Plug>(easymotion-j)
-nmap <Leader>k <Plug>(easymotion-k)
+"--------- AnyJump --------{{{
+let g:any_jump_grouping_enabled = 1
+nnoremap <leader>j :AnyJump<CR>
+"}}}
 
-"------ Ack --------
-"map <D-F> :Ack<space>
+"------ easy-motion --------
+" let g:EasyMotion_do_mapping = 0 " Disable default mappings
+" nmap <Leader>s <Plug>(easymotion-sn)
+" Turn on case sensitive feature
+" let g:EasyMotion_smartcase = 1
+" JK motions: Line motions
+" nmap <Leader><leader> <Plug>(easymotion-j)
+" nmap <Leader>k <Plug>(easymotion-k)
+
+"------ vim-floaterm --------
+let g:floaterm_position='center'
+let g:floaterm_background='#282c34'
+nmap <Leader>t :FloatermToggle<CR>
 
 "------ gitgutter --------
 let g:gitgutter_map_keys = 0
@@ -351,7 +353,6 @@ syntax enable
 " colorscheme dracula
 " colorscheme one
 colorscheme onedark
-" colorscheme neodark
 set background=dark
 
 "自动切换工作目录
@@ -397,7 +398,7 @@ vnoremap <silent> <Enter> :EasyAlign<cr>
 let g:vim_json_syntax_conceal = 2
 
 " neoformat =========================================================== {{{
-nnoremap <leader>ff :Neoformat <cr>
+nnoremap <leader>== :Neoformat <cr>
 let g:neoformat_ruby_rubocopx = {
       \ 'exe': 'rubocop',
       \ 'args': ['--safe-auto-correct', '--stdin', '"%:p"', '2>/dev/null', '|', 'sed "1,/^====================$/d"'],
@@ -405,7 +406,7 @@ let g:neoformat_ruby_rubocopx = {
       \ 'stderr': 1
       \ }
 let g:neoformat_enabled_ruby = ['rubocopx']
-let g:neoformat_enabled_javascript = ['standard']
+" let g:neoformat_enabled_javascript = ['standard']
 " auto save
 " augroup fmt
 "   autocmd!
@@ -464,7 +465,7 @@ nmap N  <Plug>(incsearch-nohl-N)
 "------------ ctrlsf -------------
 let g:ctrlsf_ackprg = 'rg'
 let g:ctrlsf_auto_close = 0
-nnoremap <leader>fs :CtrlSF<space>
+nnoremap <leader>/ :CtrlSF<space>
 
 "------------ rainbow -------------
 let g:rainbow#max_level = 16
@@ -476,8 +477,8 @@ augroup END
 
 " ChooseWin ============================================================= {{{
 "nmap m <Plug>(choosewin)
-nnoremap m :ChooseWin<CR>
-nnoremap <leader>m :ChooseWinSwap<CR>
+" nnoremap m :ChooseWin<CR>
+" nnoremap <leader>m :ChooseWinSwap<CR>
 
 " if you want to use overlay feature
 let g:choosewin_overlay_enable = 1
@@ -486,7 +487,9 @@ let g:choosewin_overlay_clear_multibyte = 1
 let g:choosewin_blink_on_land = 0
 "}}}
 
-
+" ChooseWin ============================================================= {{{
+nnoremap<nowait><silent> <Leader>m :tabnew +MagitOnly<CR>
+" }}}
 
 " coc ============================================================= {{{
 " if hidden not set, TextEdit might fail.
@@ -496,7 +499,7 @@ set hidden
 " set cmdheight=2
 
 " Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
+set updatetime=1000
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
@@ -510,6 +513,10 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+inoremap <silent><expr> <C-l>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ "\<C-j>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
@@ -541,10 +548,10 @@ endfunction
 imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
 
 " Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
+" imap <C-l> <Plug>(coc-snippets-expand)
 
 " Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
+" vmap <C-j> <Plug>(coc-snippets-select)
 
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
 let g:coc_snippet_next = '<c-j>'
@@ -561,7 +568,13 @@ let g:coc_global_extensions = [
       \ 'coc-json',
       \ 'coc-solargraph',
       \ 'coc-tsserver',
+      \ 'coc-eslint',
       \ 'coc-pairs',
       \ 'coc-lists',
+      \ 'coc-git',
+      \ 'coc-translator',
+      \ 'coc-tabnine',
       \ ]
+nmap <Leader>e <Plug>(coc-translator-p)
 "}}}
+

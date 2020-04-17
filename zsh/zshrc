@@ -29,6 +29,8 @@ export PATH=$PATH:/usr/local/opt/go/libexec/bin
 # add rust path
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# add Postgres.app path
+export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 # homebrew mysql
 export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
 
@@ -37,7 +39,7 @@ export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 # fix nvm load performance
 nvm() { . "$NVM_DIR/nvm.sh" ; nvm $@ ; }
-export PATH=$HOME/.nvm/versions/node/v8.11.2/bin:$PATH
+export PATH=$HOME/.nvm/versions/node/v12.4.0/bin:$PATH
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -90,4 +92,3 @@ alias ls='exa'
 alias la='exa -a'
 alias ll='exa -abghHl'
 alias tree="exa -T"
-

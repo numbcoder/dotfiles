@@ -8,6 +8,8 @@ set guioptions-=m
 set guioptions-=L
 "去除右边滚动条
 set guioptions-=r
+" remove native tabline
+set guioptions-=e
 
 " set guioptions+=k
 
@@ -27,4 +29,4 @@ macmenu Tools.Make key=<nop>
 set mouse=a
 
 " Disable tabline
-let g:airline#extensions#tabline#enabled = 0
+" let g:airline#extensions#tabline#enabled = 0
